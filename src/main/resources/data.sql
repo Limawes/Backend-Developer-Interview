@@ -1,30 +1,42 @@
-CREATE TABLE conta
-(
-    id_conta IDENTITY NOT NULL PRIMARY KEY,
-    nome_responsavel VARCHAR(50) NOT NULL
+-- tabela Revendas
+CREATE TABLE Revendas (
+    id SERIAL PRIMARY KEY,
+    codigo_identificador VARCHAR(50) UNIQUE NOT NULL,
+    cnpj VARCHAR(14) UNIQUE NOT NULL,
+    nome_social VARCHAR(100) NOT NULL
 );
 
-
-CREATE TABLE transferencia
-(
-    id IDENTITY NOT NULL PRIMARY KEY,
-    data_transferencia TIMESTAMP WITH TIME ZONE NOT NULL,
-    valor NUMERIC (20,2) NOT NULL,
-    tipo VARCHAR(15) NOT NULL,
-    nome_operador_transacao VARCHAR (50),
-    conta_id INT NOT NULL,
-
-        CONSTRAINT FK_CONTA
-        FOREIGN KEY (conta_id)
-        REFERENCES conta(id_conta)
+-- tabela Usuários
+CREATE TABLE Usuarios (
+    id SERIAL PRIMARY KEY,
+    codigo_identificador VARCHAR(50) UNIQUE NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    senha VARCHAR(100) NOT NULL,
+    cargo VARCHAR(50) NOT NULL,
+    loja_id INT REFERENCES Revendas(id)
 );
 
-INSERT INTO conta (id_conta, nome_responsavel) VALUES (1,'Fulano');
-INSERT INTO conta (id_conta, nome_responsavel) VALUES (2,'Sicrano');
+-- tabela Oportunidades
+CREATE TABLE Oportunidades (
+    id SERIAL PRIMARY KEY,
+    codigo_identificador VARCHAR(50) UNIQUE NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    motivo_conclusao TEXT,
+    cliente_nome VARCHAR(100) NOT NULL,
+    cliente_email VARCHAR(100) NOT NULL,
+    cliente_telefone VARCHAR(20) NOT NULL,
+    veiculo_marca VARCHAR(100) NOT NULL,
+    veiculo_modelo VARCHAR(100) NOT NULL,
+    veiculo_versao VARCHAR(100) NOT NULL,
+    veiculo_ano_modelo INT NOT NULL,
+    loja_id INT REFERENCES Revendas(id),
+    responsavel_id INT REFERENCES Usuarios(id),
+    data_atribuicao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_conclusao TIMESTAMP
+);
 
-INSERT INTO transferencia (id,data_transferencia, valor, tipo, nome_operador_transacao, conta_id) VALUES (1,'2019-01-01 12:00:00+03',30895.46,'DEPOSITO', null, 1);
-INSERT INTO transferencia (id,data_transferencia, valor, tipo, nome_operador_transacao, conta_id) VALUES (2,'2019-02-03 09:53:27+03',12.24,'DEPOSITO', null,2);
-INSERT INTO transferencia (id,data_transferencia, valor, tipo, nome_operador_transacao, conta_id) VALUES (3,'2019-05-04 08:12:45+03',-500.50,'SAQUE', null,1);
-INSERT INTO transferencia (id,data_transferencia, valor, tipo, nome_operador_transacao, conta_id) VALUES (4,'2019-08-07 08:12:45+03',-530.50,'SAQUE', null,2);
-INSERT INTO transferencia (id,data_transferencia, valor, tipo, nome_operador_transacao, conta_id) VALUES (5,'2020-06-08 10:15:01+03',3241.23,'TRANSFERENCIA', 'Beltrano',1);
-INSERT INTO transferencia (id,data_transferencia, valor, tipo, nome_operador_transacao, conta_id) VALUES (6,'2021-04-01 12:12:04+03',25173.09,'TRANSFERENCIA', 'Ronnyscley',2);
+ALTER TABLE Usuarios
+ADD CONSTRAINT fk_loja_id
+FOREIGN KEY (loja_id)
+REFERENCES Revendas(id);
