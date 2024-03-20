@@ -32,7 +32,7 @@ public class UsuariosModel {
   private String cargo;
 
   @ManyToOne
-  @JoinColumn(name = "id")
+  @JoinColumn(name = "loja_id_id")
   private RevendasModel lojaId;
 
 }
