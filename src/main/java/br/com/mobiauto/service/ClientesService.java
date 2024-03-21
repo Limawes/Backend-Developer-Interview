@@ -3,12 +3,15 @@ package br.com.mobiauto.service;
 import br.com.mobiauto.domain.model.ClientesModel;
 import br.com.mobiauto.domain.repository.ClientesRepository;
 import br.com.mobiauto.domain.request.ClientesRequest;
+import br.com.mobiauto.domain.response.ClientesResponse;
+import br.com.mobiauto.domain.response.mapper.ClienteResponseMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientesService {
@@ -48,12 +51,13 @@ public class ClientesService {
     return clientesModel.get();
   }
 
-  public List<ClientesModel> findALl(){
-    ClientesModel clientesModel = new ClientesModel();
-    if(Objects.isNull(clientesModel)){
-      throw new RuntimeException("Nenhuma informacao encontrada!");
-    }
-    return clientesRepository.findAll();
+  public ClientesResponse findById_Response(final Long id){
+    return ClienteResponseMapper.INSTANCE.modelToResponse(this.findById(id));
+  }
+
+  public List<ClientesResponse> findALl(){
+    List<ClientesModel> clientes = clientesRepository.findAll();
+    return clientes.stream().map(ClienteResponseMapper.INSTANCE::modelToResponse).collect(Collectors.toList());
   }
 
   public void deleteById(Long id){
