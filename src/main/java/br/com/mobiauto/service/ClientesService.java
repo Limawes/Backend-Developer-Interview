@@ -55,7 +55,7 @@ public class ClientesService {
     return ClienteResponseMapper.INSTANCE.modelToResponse(this.findById(id));
   }
 
-  public List<ClientesResponse> findALl(){
+  public List<ClientesResponse> findAll(){
     List<ClientesModel> clientes = clientesRepository.findAll();
     return clientes.stream().map(ClienteResponseMapper.INSTANCE::modelToResponse).collect(Collectors.toList());
   }

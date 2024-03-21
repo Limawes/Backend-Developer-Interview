@@ -9,6 +9,5 @@ import org.mapstruct.factory.Mappers;
 public interface ClienteResponseMapper {
 
   ClienteResponseMapper INSTANCE = Mappers.getMapper(ClienteResponseMapper.class);
-
   ClientesResponse modelToResponse(ClientesModel model);
 }

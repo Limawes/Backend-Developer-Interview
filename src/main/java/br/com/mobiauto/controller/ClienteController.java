@@ -43,7 +43,7 @@ public class ClienteController {
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<ClientesResponse> findAll(){
-    return clientesService.findALl();
+    return clientesService.findAll();
   }
 
   @Operation(summary = "Atualizando um cliente")

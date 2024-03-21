@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.UUID;
 
 @Entity
@@ -14,7 +15,7 @@ public class UsuariosModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id", unique = true, nullable = false)
-  private UUID id;
+  private Long id;
 
   @Column(name = "codigo_identificador", nullable = false)
   private String codigoIdentificador;
@@ -28,8 +29,14 @@ public class UsuariosModel {
   @Column(name = "senha")
   private String senha;
 
-  @Column(name = "cargo")
-  private String cargo;
+
+  @ManyToMany
+  @JoinTable(
+    name = "usuarios_cargos",
+    joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "cargo_id", referencedColumnName = "id")
+  )
+  private Collection<CargoModel> cargo;
 
   @ManyToOne
   @JoinColumn(name = "loja_id_id")
