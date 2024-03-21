@@ -1,4 +1,4 @@
-package br.com.banco.util;
+package br.com.mobiauto.util;
 
 import java.math.BigInteger;
 import java.util.InputMismatchException;

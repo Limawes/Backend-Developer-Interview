@@ -1,4 +1,4 @@
-package br.com.banco;
+package br.com.mobiauto;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

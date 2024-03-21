@@ -1,4 +1,4 @@
-package br.com.banco.model;
+package br.com.mobiauto.domain.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ public class ClientesModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id", unique = true, nullable = false)
-  private UUID id;
+  private Long id;
 
   @Column(name = "nome")
   private String nome;

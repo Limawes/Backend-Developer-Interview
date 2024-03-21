@@ -1,4 +1,4 @@
-package br.com.banco.model;
+package br.com.mobiauto.domain.model;
 
 import lombok.Getter;
 import lombok.Setter;
