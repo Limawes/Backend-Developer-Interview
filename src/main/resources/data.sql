@@ -3,7 +3,8 @@ CREATE TABLE Revendas (
     id SERIAL PRIMARY KEY,
     codigo_identificador VARCHAR(50) UNIQUE NOT NULL,
     cnpj VARCHAR(14) UNIQUE NOT NULL,
-    nome_social VARCHAR(100) NOT NULL
+    nome_social VARCHAR(100) NOT NULL,
+    ativo BOOLEAN DEFAULT true
 );
 
 CREATE TABLE Usuarios (
