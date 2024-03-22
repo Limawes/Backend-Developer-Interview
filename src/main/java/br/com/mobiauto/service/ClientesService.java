@@ -24,7 +24,7 @@ public class ClientesService {
 
   @Transactional
   //se nada der errado o método é confirmado, caso contrario as ações serão revertidas
-  public void save(final ClientesRequest clientesRequest, final Long cliente_id){
+  public ClientesModel save(final ClientesRequest clientesRequest, final Long cliente_id){
     ClientesModel clienteModel = new ClientesModel();
 
     // verificar se cria ou atualiza
@@ -40,7 +40,7 @@ public class ClientesService {
       clienteModel.setEmail(clientesRequest.getEmail());
       clienteModel.setTelefone(clientesRequest.getTelefone());
 
-      clientesRepository.save(clienteModel);
+      return clientesRepository.save(clienteModel);
   }
 
   public ClientesModel findById(final Long id){

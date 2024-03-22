@@ -13,9 +13,9 @@ import java.util.UUID;
 @Table(name = "Oportunidades")
 public class OportunidadesModel {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", unique = true, nullable = false)
-  private UUID id;
+  private Long id;
 
   @Column(name = "codigo_identificador", unique = true, nullable = false)
   private String codigoIdentificador;
@@ -41,7 +41,7 @@ public class OportunidadesModel {
   private VeiculosModel veiculoId;
 
   @ManyToOne
-  @JoinColumn(name = "loja_id_id")
+  @JoinColumn(name = "loja_id")
   private RevendasModel lojaId;
 
   @OneToOne

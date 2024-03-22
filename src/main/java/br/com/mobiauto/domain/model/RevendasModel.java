@@ -12,9 +12,9 @@ import java.util.UUID;
 @Table(name = "Revendas")
 public class RevendasModel {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", updatable = false, nullable = false)
-  private UUID id;
+  private Long id;
 
   @Column(name = "codigo_identificador", unique = true, nullable = false)
   private String codigoIdentificador;
