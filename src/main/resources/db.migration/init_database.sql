@@ -1,5 +1,4 @@
-
-CREATE TABLE Revendas (
+CREATE TABLE IF NOT EXISTS Revendas (
     id SERIAL PRIMARY KEY,
     codigo_identificador VARCHAR(50) UNIQUE NOT NULL,
     cnpj VARCHAR(14) UNIQUE NOT NULL,
@@ -7,7 +6,7 @@ CREATE TABLE Revendas (
     ativo BOOLEAN DEFAULT true
 );
 
-CREATE TABLE Usuarios (
+CREATE TABLE IF NOT EXISTS Usuarios (
     id SERIAL PRIMARY KEY,
     codigo_identificador VARCHAR(50) UNIQUE NOT NULL,
     nome VARCHAR(100) NOT NULL,
@@ -17,7 +16,7 @@ CREATE TABLE Usuarios (
     loja_id INT REFERENCES Revendas(id)
 );
 
-CREATE TABLE Veiculos (
+CREATE TABLE IF NOT EXISTS Veiculos (
     id SERIAL PRIMARY KEY,
     marca VARCHAR(100) NOT NULL,
     modelo VARCHAR(100) NOT NULL,
@@ -25,14 +24,14 @@ CREATE TABLE Veiculos (
     ano_modelo VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE Clientes (
+CREATE TABLE IF NOT EXISTS Clientes (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     telefone VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE Oportunidades (
+CREATE TABLE IF NOT EXISTS Oportunidades (
     id SERIAL PRIMARY KEY,
     codigo_identificador VARCHAR(50) UNIQUE NOT NULL,
     status VARCHAR(20) NOT NULL DEFAULT 'novo',
@@ -54,3 +53,4 @@ REFERENCES Revendas(id);
 ALTER TABLE Oportunidades
 ADD CONSTRAINT chk_status
 CHECK (status IN ('novo', 'em atendimento', 'concluido'));
+

@@ -1,6 +1,6 @@
 package br.com.mobiauto.service;
 
-import br.com.mobiauto.domain.model.ClientesModel;
+import br.com.mobiauto.domain.model.ClienteModel;
 import br.com.mobiauto.domain.repository.ClientesRepository;
 import br.com.mobiauto.domain.request.ClientesRequest;
 import br.com.mobiauto.domain.response.ClientesResponse;
@@ -24,12 +24,12 @@ public class ClientesService {
 
   @Transactional
   //se nada der errado o método é confirmado, caso contrario as ações serão revertidas
-  public ClientesModel save(final ClientesRequest clientesRequest, final Long cliente_id){
-    ClientesModel clienteModel = new ClientesModel();
+  public ClienteModel save(final ClientesRequest clientesRequest, final Long cliente_id){
+    ClienteModel clienteModel = new ClienteModel();
 
     // verificar se cria ou atualiza
       if(cliente_id != null){
-        Optional<ClientesModel> cliente = clientesRepository.findById(cliente_id);
+        Optional<ClienteModel> cliente = clientesRepository.findById(cliente_id);
         if(cliente.isEmpty()) {
           throw new RuntimeException("Não encontrado");
         }
@@ -43,26 +43,28 @@ public class ClientesService {
       return clientesRepository.save(clienteModel);
   }
 
-  public ClientesModel findById(final Long id){
-    Optional<ClientesModel> clientesModel = clientesRepository.findById(id);
+  public ClienteModel findById(final Long id){
+    Optional<ClienteModel> clientesModel = clientesRepository.findById(id);
     if(clientesModel.isEmpty()){
-      throw new RuntimeException("Nenhum cliente encontrado");
+      throw new RuntimeException("Cliente não encontrado");
     }
     return clientesModel.get();
   }
 
-  public ClientesResponse findById_Response(final Long id){
-    return ClienteResponseMapper.INSTANCE.modelToResponse(this.findById(id));
-  }
-
   public List<ClientesResponse> findAll(){
-    List<ClientesModel> clientes = clientesRepository.findAll();
-    return clientes.stream().map(ClienteResponseMapper.INSTANCE::modelToResponse).collect(Collectors.toList());
+    ClientesResponse clientesResponse = new ClientesResponse();
+
+    clientesResponse.getId();
+    clientesResponse.getNome();
+    clientesResponse.getTelefone();
+    clientesResponse.getEmail();
+
+    return (List<ClientesResponse>) clientesResponse;
   }
 
   public void deleteById(Long id){
-    ClientesModel clientesModel = new ClientesModel();
-    if(Objects.isNull(clientesModel)){
+    ClienteModel clienteModel = new ClienteModel();
+    if(Objects.isNull(clienteModel)){
       throw new RuntimeException("Sem dados para excluir");
     }
     clientesRepository.deleteById(id);

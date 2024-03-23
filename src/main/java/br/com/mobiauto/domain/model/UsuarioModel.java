@@ -4,15 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "Usuarios")
-public class UsuariosModel {
+public class UsuarioModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id", unique = true, nullable = false)
@@ -41,6 +39,6 @@ public class UsuariosModel {
 
   @ManyToOne
   @JoinColumn(name = "loja_id_id")
-  private RevendasModel lojaId;
+  private RevendaModel lojaId;
 
 }

@@ -1,5 +1,6 @@
 package br.com.mobiauto.controller;
 
+import br.com.mobiauto.domain.model.ClienteModel;
 import br.com.mobiauto.domain.request.ClientesRequest;
 import br.com.mobiauto.domain.response.ClientesResponse;
 import br.com.mobiauto.service.ClientesService;
@@ -34,9 +35,9 @@ public class ClienteController {
   @Operation(summary = "Buscando um cliente")
   @GetMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public ClientesResponse findById(Long id){
+  public ClienteModel findById(@PathVariable Long id){
     log.info("Buscando cliente por id: {}", id);
-    return clientesService.findById_Response(id);
+    return clientesService.findById(id);
   }
 
   @Operation(summary = "Buscando todos clientes")

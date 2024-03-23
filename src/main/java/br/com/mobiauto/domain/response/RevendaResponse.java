@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientesResponse {
-
+public class RevendaResponse {
   private Long id;
-  private String nome;
-  private String email;
-  private String telefone;
+  private String codigoIdentificador;
+  private String cnpj;
+  private String nomeSocial;
 }

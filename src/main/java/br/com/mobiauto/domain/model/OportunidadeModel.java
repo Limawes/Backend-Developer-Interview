@@ -5,13 +5,12 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "Oportunidades")
-public class OportunidadesModel {
+public class OportunidadeModel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", unique = true, nullable = false)
@@ -34,17 +33,17 @@ public class OportunidadesModel {
 
   @ManyToOne
   @JoinColumn(name = "cliente_id_id")
-  private ClientesModel clienteId;
+  private ClienteModel clienteId;
 
   @ManyToOne
   @JoinColumn(name = "veiculo_id_id")
-  private VeiculosModel veiculoId;
+  private VeiculoModel veiculoId;
 
   @ManyToOne
   @JoinColumn(name = "loja_id")
-  private RevendasModel lojaId;
+  private RevendaModel lojaId;
 
   @OneToOne
   @JoinColumn(name = "responsavel_id_id")
-  private UsuariosModel responsavelId;
+  private UsuarioModel responsavelId;
 }

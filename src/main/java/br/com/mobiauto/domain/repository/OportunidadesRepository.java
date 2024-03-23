@@ -1,6 +1,6 @@
 package br.com.mobiauto.domain.repository;
 
-import br.com.mobiauto.domain.model.OportunidadesModel;
+import br.com.mobiauto.domain.model.OportunidadeModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,17 +9,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface OportunidadesRepository extends JpaRepository<OportunidadesModel, Long> {
+public interface OportunidadesRepository extends JpaRepository<OportunidadeModel, Long> {
 
   @Override
-  Optional<OportunidadesModel> findById(Long id);
+  Optional<OportunidadeModel> findById(Long id);
 
   @Override
-  List<OportunidadesModel> findAll();
+  List<OportunidadeModel> findAll();
 
   //Buscar oportunidades de uma loja específica
   @Query(value = "select * from Oportunidades where loja_id = :id_loja", nativeQuery = true)
-  List<OportunidadesModel> findByLojaId(Long id_loja);
+  List<OportunidadeModel> findByLojaId(Long id_loja);
 
 
 }

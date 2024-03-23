@@ -22,7 +22,7 @@ public class CargoModel {
   private String nome;
 
   @ManyToMany(mappedBy = "cargo")
-  private Collection<UsuariosModel> usuario;
+  private Collection<UsuarioModel> usuario;
 
   @ManyToMany
   @JoinTable(
