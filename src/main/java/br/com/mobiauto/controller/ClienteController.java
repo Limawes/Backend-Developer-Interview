@@ -3,7 +3,7 @@ package br.com.mobiauto.controller;
 import br.com.mobiauto.domain.model.ClienteModel;
 import br.com.mobiauto.domain.request.ClientesRequest;
 import br.com.mobiauto.domain.response.ClientesResponse;
-import br.com.mobiauto.service.ClientesService;
+import br.com.mobiauto.service.VeiculoService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,9 +17,9 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/cliente")
 public class ClienteController {
 
-  private final ClientesService clientesService;
+  private final VeiculoService clientesService;
 
-  public ClienteController(ClientesService clientesService) {
+  public ClienteController(VeiculoService clientesService) {
     this.clientesService = clientesService;
   }
 

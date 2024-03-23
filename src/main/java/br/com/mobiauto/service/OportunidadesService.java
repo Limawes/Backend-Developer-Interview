@@ -12,14 +12,14 @@ public class OportunidadesService {
 
   private final OportunidadesRepository oportunidadesRepository;
   private final ClientesService clientesService;
-  private final VeiculosService veiculosService;
+  private final VeiculoService veiculoService;
   private final UsuarioService usuarioService;
   private final RevendaService revendaService;
 
-  public OportunidadesService(OportunidadesRepository oportunidadesRepository, ClientesService clientesService, VeiculosService veiculosService, UsuarioService usuarioService, RevendaService revendaService) {
+  public OportunidadesService(OportunidadesRepository oportunidadesRepository, ClientesService clientesService, VeiculoService veiculoService, UsuarioService usuarioService, RevendaService revendaService) {
     this.oportunidadesRepository = oportunidadesRepository;
     this.clientesService = clientesService;
-    this.veiculosService = veiculosService;
+    this.veiculoService = veiculoService;
     this.usuarioService = usuarioService;
     this.revendaService = revendaService;
   }
@@ -48,7 +48,7 @@ public class OportunidadesService {
     final ClienteModel clienteModel = clientesService
       .save(oportunidadesRequest.getClienteId(), cliente_id);
 
-    final VeiculoModel veiculoModel = veiculosService
+    final VeiculoModel veiculoModel = veiculoService
       .save(oportunidadesRequest.getVeiculoId(), veiculo_id);
 
     final UsuarioModel usuarioModel = usuarioService
