@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -36,7 +37,7 @@ public class UsuariosModel {
     joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "cargo_id", referencedColumnName = "id")
   )
-  private Collection<CargoModel> cargo;
+  private List<CargoModel> cargo;
 
   @ManyToOne
   @JoinColumn(name = "loja_id_id")

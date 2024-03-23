@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,6 +30,6 @@ public class CargoModel {
     joinColumns = @JoinColumn(name = "cargo_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "permissao_id", referencedColumnName = "id")
   )
-  private Collection<PermissoesModel> permissoes;
+  private List<PermissoesModel> permissoes;
 
 }

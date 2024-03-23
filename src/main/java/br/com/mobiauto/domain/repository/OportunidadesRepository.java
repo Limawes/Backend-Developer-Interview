@@ -18,7 +18,7 @@ public interface OportunidadesRepository extends JpaRepository<OportunidadesMode
   List<OportunidadesModel> findAll();
 
   //Buscar oportunidades de uma loja específica
-  @Query("select * from Oportunidades where loja_id = :id_loja")
+  @Query(value = "select * from Oportunidades where loja_id = :id_loja", nativeQuery = true)
   List<OportunidadesModel> findByLojaId(Long id_loja);
 
 

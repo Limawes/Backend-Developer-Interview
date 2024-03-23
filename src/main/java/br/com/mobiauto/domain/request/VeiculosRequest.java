@@ -8,6 +8,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class VeiculosRequest {
+  private Long id;
   private String marca;
   private String modelo;
   private String versao;

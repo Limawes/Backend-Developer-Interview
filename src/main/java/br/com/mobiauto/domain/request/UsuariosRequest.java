@@ -9,10 +9,11 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class UsuariosRequest {
+  private Long id;
   private String codigoIdentificador;
   private String nome;
   private String email;
   private String senha;
-  private String cargo;
-  private RevendasModel lojaId;
+  private CargoRequest cargo;
+  private RevendasRequest lojaId;
 }
