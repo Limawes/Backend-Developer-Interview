@@ -31,7 +31,7 @@ public class VeiculoService {
         throw new RuntimeException("Veículo não encontrado");
       }
     }
-    veiculoModel.setId(veiculos_id);
+    veiculoModel.setIdVeiculo(veiculos_id);
 
     veiculoModel.setMarca(veiculosRequest.getMarca());
     veiculoModel.setModelo(veiculosRequest.getModelo());
@@ -39,7 +39,7 @@ public class VeiculoService {
     veiculoModel.setAnoModelo(veiculosRequest.getAnoModelo());
 
 
-    return veiculoModel;
+    return veiculoRepository.save(veiculoModel);
   }
 
   public VeiculoModel findById(final Long id){
@@ -56,7 +56,7 @@ public class VeiculoService {
 
     for(VeiculoModel veiculo : veiculos){
       VeiculoResponse veiculoResponse = new VeiculoResponse();
-      veiculoResponse.setId(veiculo.getId());
+      veiculoResponse.setIdVeiculo(veiculo.getIdVeiculo());
       veiculoResponse.setMarca(veiculo.getMarca());
       veiculoResponse.setModelo(veiculo.getModelo());
       veiculoResponse.setVersao(veiculo.getVersao());

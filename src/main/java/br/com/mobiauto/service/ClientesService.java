@@ -4,14 +4,13 @@ import br.com.mobiauto.domain.model.ClienteModel;
 import br.com.mobiauto.domain.repository.ClientesRepository;
 import br.com.mobiauto.domain.request.ClientesRequest;
 import br.com.mobiauto.domain.response.ClientesResponse;
-import br.com.mobiauto.domain.response.mapper.ClienteResponseMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ClientesService {
@@ -33,7 +32,7 @@ public class ClientesService {
         if(cliente.isEmpty()) {
           throw new RuntimeException("Não encontrado");
         }
-        clienteModel.setId(cliente_id);
+        clienteModel.setIdCliente(cliente_id);
       }
 
       clienteModel.setNome(clientesRequest.getNome());
@@ -52,14 +51,21 @@ public class ClientesService {
   }
 
   public List<ClientesResponse> findAll(){
-    ClientesResponse clientesResponse = new ClientesResponse();
+    List<ClienteModel> clientes = clientesRepository.findAll();
+    List<ClientesResponse> clientesResponseList = new ArrayList<>();
 
-    clientesResponse.getId();
-    clientesResponse.getNome();
-    clientesResponse.getTelefone();
-    clientesResponse.getEmail();
+    for(ClienteModel cliente : clientes){
+      ClientesResponse clientesResponse = new ClientesResponse();
 
-    return (List<ClientesResponse>) clientesResponse;
+      clientesResponse.setIdCliente(cliente.getIdCliente());
+      clientesResponse.setNome(cliente.getNome());
+      clientesResponse.setTelefone(cliente.getTelefone());
+      clientesResponse.setEmail(cliente.getEmail());
+
+      clientesResponseList.add(clientesResponse);
+    }
+
+    return clientesResponseList;
   }
 
   public void deleteById(Long id){

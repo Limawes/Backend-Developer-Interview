@@ -1,4 +1,4 @@
-package br.com.mobiauto.domain.request;
+package br.com.mobiauto.domain.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,14 +7,12 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class UsuariosRequest {
+@AllArgsConstructor
+public class UsuarioResponse {
   private Long idUsuario;
-  private String codigoIdentificador;
   private String nome;
   private String email;
-  private String senha;
-  private Long cargo;
-  private Long lojaId;
+  private CargoResponse cargo;
+  private RevendaResponse lojaId;
 }

@@ -12,8 +12,8 @@ import javax.persistence.*;
 public class VeiculoModel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id", unique = true, nullable = false)
-  private Long id;
+  @Column(name = "id_veiculo", unique = true, nullable = false)
+  private Long idVeiculo;
 
   @Column(name = "marca")
   private String marca;

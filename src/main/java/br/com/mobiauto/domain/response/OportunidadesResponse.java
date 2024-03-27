@@ -16,13 +16,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OportunidadesResponse {
+  private Long idOportunidade;
   private String codigoIdentificador;
   private String status;
   private String motivoConclusao;
   private LocalDateTime dataAtribuicao;
   private LocalDateTime dataConclusao;
-  private ClientesRequest clienteId;
-  private VeiculosRequest veiculoId;
-  private RevendasRequest lojaId;
-  private UsuariosRequest responsavelId;
+  private ClientesResponse clienteId;
+  private VeiculoResponse veiculoId;
+  private RevendaResponse lojaId;
+  private UsuarioResponse responsavelId;
 }

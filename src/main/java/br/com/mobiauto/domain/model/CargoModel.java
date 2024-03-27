@@ -14,21 +14,21 @@ import java.util.List;
 @Table(name = "Cargos")
 public class CargoModel {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "id", nullable = false)
-  private Long id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id_cargo", nullable = false)
+  private Long idCargo;
 
   @Column(name = "nome")
   private String nome;
 
-  @ManyToMany(mappedBy = "cargo")
-  private Collection<UsuarioModel> usuario;
+  @OneToMany(mappedBy = "cargo")
+  private List<UsuarioModel> usuarios;
 
   @ManyToMany
   @JoinTable(
     name = "cargos_permissao",
-    joinColumns = @JoinColumn(name = "cargo_id", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "permissao_id", referencedColumnName = "id")
+    joinColumns = @JoinColumn(name = "cargo_id", referencedColumnName = "id_cargo"),
+    inverseJoinColumns = @JoinColumn(name = "permissao_id", referencedColumnName = "id_permissao")
   )
   private List<PermissoesModel> permissoes;
 

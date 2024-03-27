@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS Revendas (
-    id SERIAL PRIMARY KEY,
+    id_revenda SERIAL PRIMARY KEY,
     codigo_identificador VARCHAR(50) UNIQUE NOT NULL,
     cnpj VARCHAR(14) UNIQUE NOT NULL,
     nome_social VARCHAR(100) NOT NULL,
@@ -7,17 +7,15 @@ CREATE TABLE IF NOT EXISTS Revendas (
 );
 
 CREATE TABLE IF NOT EXISTS Usuarios (
-    id SERIAL PRIMARY KEY,
-    codigo_identificador VARCHAR(50) UNIQUE NOT NULL,
+    id_usuario SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     senha VARCHAR(100) NOT NULL,
-    cargo VARCHAR(50) NOT NULL,
     loja_id INT REFERENCES Revendas(id)
 );
 
 CREATE TABLE IF NOT EXISTS Veiculos (
-    id SERIAL PRIMARY KEY,
+    id_veiculo SERIAL PRIMARY KEY,
     marca VARCHAR(100) NOT NULL,
     modelo VARCHAR(100) NOT NULL,
     versao VARCHAR(100) NOT NULL,
@@ -25,14 +23,14 @@ CREATE TABLE IF NOT EXISTS Veiculos (
 );
 
 CREATE TABLE IF NOT EXISTS Clientes (
-    id SERIAL PRIMARY KEY,
+    id_cliente SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     telefone VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Oportunidades (
-    id SERIAL PRIMARY KEY,
+    id_oportunidade SERIAL PRIMARY KEY,
     codigo_identificador VARCHAR(50) UNIQUE NOT NULL,
     status VARCHAR(20) NOT NULL DEFAULT 'novo',
     motivo_conclusao TEXT,

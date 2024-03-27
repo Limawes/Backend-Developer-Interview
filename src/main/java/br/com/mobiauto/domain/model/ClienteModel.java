@@ -12,8 +12,8 @@ import javax.persistence.*;
 public class ClienteModel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id", unique = true, nullable = false)
-  private Long id;
+  @Column(name = "id_cliente", unique = true, nullable = false)
+  private Long idCliente;
 
   @Column(name = "nome")
   private String nome;

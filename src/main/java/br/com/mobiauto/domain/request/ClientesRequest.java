@@ -8,7 +8,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class ClientesRequest {
-
+  private Long idCliente;
   private String nome;
   private String email;
   private String telefone;

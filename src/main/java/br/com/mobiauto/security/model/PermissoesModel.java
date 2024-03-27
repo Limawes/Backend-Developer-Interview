@@ -16,8 +16,8 @@ import java.util.Collection;
 public class PermissoesModel {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "id")
-  private Long id;
+  @Column(name = "id_permissao")
+  private Long idPermissao;
 
   @Column(name = "nome")
   private String nome;

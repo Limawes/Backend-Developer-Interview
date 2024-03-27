@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ClientesResponse {
 
-  private Long id;
+  private Long idCliente;
   private String nome;
   private String email;
   private String telefone;

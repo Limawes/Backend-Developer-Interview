@@ -1,4 +1,4 @@
-package br.com.mobiauto.domain.request;
+package br.com.mobiauto.domain.response;
 
 import br.com.mobiauto.domain.model.UsuarioModel;
 import br.com.mobiauto.security.model.PermissoesModel;
@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CargoRequest {
+public class CargoResponse {
   private Long idCargo;
   private String nome;
-  private Long usuario;
-  private Long permissoes;
+  private UsuarioModel usuario;
+  private PermissoesModel permissoes;
 }

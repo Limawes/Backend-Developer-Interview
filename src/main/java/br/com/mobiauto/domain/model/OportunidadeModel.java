@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 public class OportunidadeModel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id", unique = true, nullable = false)
-  private Long id;
+  @Column(name = "id_oportunidade", unique = true, nullable = false)
+  private Long idOportunidade;
 
   @Column(name = "codigo_identificador", unique = true, nullable = false)
   private String codigoIdentificador;
@@ -36,7 +36,7 @@ public class OportunidadeModel {
   private ClienteModel clienteId;
 
   @ManyToOne
-  @JoinColumn(name = "veiculo_id_id")
+  @JoinColumn(name = "veiculo_id")
   private VeiculoModel veiculoId;
 
   @ManyToOne
@@ -44,6 +44,6 @@ public class OportunidadeModel {
   private RevendaModel lojaId;
 
   @OneToOne
-  @JoinColumn(name = "responsavel_id_id")
+  @JoinColumn(name = "responsavel_id")
   private UsuarioModel responsavelId;
 }

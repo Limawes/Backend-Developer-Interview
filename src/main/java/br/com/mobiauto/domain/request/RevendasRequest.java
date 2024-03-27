@@ -8,7 +8,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class RevendasRequest {
-  private Long id;
+  private Long idRevenda;
   private String codigoIdentificador;
   private String cnpj;
   private String nomeSocial;

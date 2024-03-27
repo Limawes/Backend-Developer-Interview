@@ -12,12 +12,9 @@ import java.util.List;
 @Table(name = "Usuarios")
 public class UsuarioModel {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "id", unique = true, nullable = false)
-  private Long id;
-
-  @Column(name = "codigo_identificador", nullable = false)
-  private String codigoIdentificador;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id_usuario", nullable = false)
+  private Long idUsuario;
 
   @Column(name = "nome", nullable = false)
   private String nome;
@@ -29,16 +26,16 @@ public class UsuarioModel {
   private String senha;
 
 
-  @ManyToMany
+  @ManyToOne
   @JoinTable(
     name = "usuarios_cargos",
-    joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "cargo_id", referencedColumnName = "id")
+    joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id_usuario"),
+    inverseJoinColumns = @JoinColumn(name = "cargo_id", referencedColumnName = "id_cargo")
   )
-  private List<CargoModel> cargo;
+  private CargoModel cargo;
 
   @ManyToOne
-  @JoinColumn(name = "loja_id_id")
+  @JoinColumn(name = "loja_id")
   private RevendaModel lojaId;
 
 }

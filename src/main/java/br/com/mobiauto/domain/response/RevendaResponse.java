@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RevendaResponse {
-  private Long id;
+  private Long idRevenda;
   private String codigoIdentificador;
   private String cnpj;
   private String nomeSocial;

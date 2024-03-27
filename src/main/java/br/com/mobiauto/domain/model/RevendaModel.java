@@ -12,8 +12,8 @@ import javax.persistence.*;
 public class RevendaModel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id", updatable = false, nullable = false)
-  private Long id;
+  @Column(name = "id_revenda", updatable = false, nullable = false)
+  private Long idRevenda;
 
   @Column(name = "codigo_identificador", unique = true, nullable = false)
   private String codigoIdentificador;

@@ -31,7 +31,7 @@ public class RevendaService {
       if (revendas.isEmpty()) {
         throw new RuntimeException("Loja não encontrada!");
       }
-      revendaModel.setId(revendasRequest.getId());
+      revendaModel.setIdRevenda(revendasRequest.getIdRevenda());
     }
     //Aqui eu verifico se o cnpj já existe
     if(revendaRepository.existsByCnpj(revendasRequest.getCnpj())){
@@ -62,7 +62,7 @@ public class RevendaService {
 
     for(RevendaModel revenda : revendas){
       RevendaResponse revendaResponse = new RevendaResponse();
-        revendaResponse.setId(revenda.getId());
+        revendaResponse.setIdRevenda(revenda.getIdRevenda());
         revendaResponse.setCnpj(revenda.getCnpj());
         revendaResponse.setCodigoIdentificador(revenda.getCodigoIdentificador());
         revendaResponse.setNomeSocial(revenda.getNomeSocial());

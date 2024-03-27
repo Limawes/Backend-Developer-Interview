@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VeiculoResponse {
-  private Long id;
+  private Long idVeiculo;
   private String marca;
   private String modelo;
   private String versao;
