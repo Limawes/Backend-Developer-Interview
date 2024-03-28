@@ -21,8 +21,9 @@ public class CargoModel {
   @Column(name = "nome")
   private String nome;
 
-  @OneToMany(mappedBy = "cargo")
+  @ManyToMany(mappedBy = "cargo")
   private List<UsuarioModel> usuarios;
+
 
   @ManyToMany
   @JoinTable(

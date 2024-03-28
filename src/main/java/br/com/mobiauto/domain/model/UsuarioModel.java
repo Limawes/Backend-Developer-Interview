@@ -26,13 +26,13 @@ public class UsuarioModel {
   private String senha;
 
 
-  @ManyToOne
+  @ManyToMany
   @JoinTable(
-    name = "usuarios_cargos",
-    joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id_usuario"),
-    inverseJoinColumns = @JoinColumn(name = "cargo_id", referencedColumnName = "id_cargo")
-  )
-  private CargoModel cargo;
+    name = "usuario_cargo",
+    joinColumns = @JoinColumn(name = "usuario_id"),
+    inverseJoinColumns = @JoinColumn(name = "cargo_id"))
+  private List<CargoModel> cargo;
+
 
   @ManyToOne
   @JoinColumn(name = "loja_id")

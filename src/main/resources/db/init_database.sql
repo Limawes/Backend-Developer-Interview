@@ -42,6 +42,28 @@ CREATE TABLE IF NOT EXISTS Oportunidades (
     data_conclusao TIMESTAMP -- data e hora que a oportunidade foi concluida
 );
 
+CREATE TABLE IF NOT EXISTS Cargos(
+    id_cargo SERIAL PRIMARY KEY,
+    nome VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Permissao(
+    id_permissao SERIAL PRIMARY KEY,
+    nome VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS usuarios_cargos(
+    id_usuarios_cargos SERIAL PRIMARY KEY,
+    usuario_id BIGINT REFERENCES Usuarios(id_usuario),
+    cargo_id BIGINT REFERENCES Cargos(id_cargo)
+);
+
+CREATE TABLE IF NOT EXISTS cargos_permissao(
+    id_cargos_permissao SERIAL PRIMARY KEY,
+    cargo_id BIGINT REFERENCES Cargos(id_cargo),
+    permissao_id BIGINT REFERENCES Permissao(id)
+);
+
 ALTER TABLE Usuarios
 ADD CONSTRAINT fk_loja_id
 FOREIGN KEY (loja_id)
@@ -52,3 +74,8 @@ ALTER TABLE Oportunidades
 ADD CONSTRAINT chk_status
 CHECK (status IN ('novo', 'em atendimento', 'concluido'));
 
+
+ALTER TABLE Oportunidades
+ADD CONSTRAINT fk_oportunidades_revendas
+FOREIGN KEY (loja_id)
+REFERENCES Revendas(id_revenda);

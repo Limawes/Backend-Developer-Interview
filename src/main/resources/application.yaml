@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: "mobiauto"
+  datasource:
+    url: "jdbc:postgresql://localhost:5431/mobiauto"
+    username: "postgres"
+    password: "Wa20112016"
+    driverClassName: "org.postgresql.Driver"
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      javax:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            scripts:
+              create-target: classpath:db/migration/init_database.sql

@@ -13,6 +13,7 @@ import br.com.mobiauto.domain.response.CargoResponse;
 import br.com.mobiauto.domain.response.UsuarioResponse;
 import br.com.mobiauto.domain.response.UsuariosCargosResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class UsuarioService {
     this.usuariosCargosRepository = usuariosCargosRepository;
   }
 
+  @Transactional
   public UsuarioModel save(final UsuariosRequest usuariosRequest, Long usuario_id){
     UsuarioModel usuarioModel = new UsuarioModel();
 
@@ -54,18 +56,17 @@ public class UsuarioService {
     usuarioModel.setEmail(usuariosRequest.getEmail());
     usuarioModel.setSenha(usuariosRequest.getSenha());
 
-    //@TODO corrigir associacao na tabela usuarios_cargos o id não está sendo gerado
     if(usuariosRequest.getCargo() != null){
       CargoModel cargo = cargoRepository.findById(usuariosRequest.getCargo())
         .orElseThrow(() -> new IllegalArgumentException("Cargo não encontrado!"));
-      usuarioModel.setCargo(cargo);
+      usuarioModel.setCargo(usuarioModel.getCargo());
       UsuariosCargosModel usuariosCargosModel = new UsuariosCargosModel();
       UsuariosCargosResponse usuariosCargosResponse = new UsuariosCargosResponse();
       if(usuariosCargosModel.getId() == null ){
         usuariosCargosModel.setId(usuariosCargosResponse.getId());
       }
       usuariosCargosModel.setUsuarioId(usuarioModel);
-      usuariosCargosModel.setCargoId(usuarioModel.getCargo());
+      usuariosCargosModel.setCargoId(cargo);
 
       usuariosCargosRepository.save(usuariosCargosModel);
     }
