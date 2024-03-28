@@ -1,5 +1,9 @@
 package br.com.mobiauto.domain.response;
 
+import br.com.mobiauto.domain.model.ClienteModel;
+import br.com.mobiauto.domain.model.RevendaModel;
+import br.com.mobiauto.domain.model.UsuarioModel;
+import br.com.mobiauto.domain.model.VeiculoModel;
 import br.com.mobiauto.domain.request.ClientesRequest;
 import br.com.mobiauto.domain.request.RevendasRequest;
 import br.com.mobiauto.domain.request.UsuariosRequest;
@@ -17,13 +21,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class OportunidadesResponse {
   private Long idOportunidade;
-  private String codigoIdentificador;
   private String status;
   private String motivoConclusao;
   private LocalDateTime dataAtribuicao;
   private LocalDateTime dataConclusao;
-  private ClientesResponse clienteId;
-  private VeiculoResponse veiculoId;
-  private RevendaResponse lojaId;
-  private UsuarioResponse responsavelId;
+  private ClienteModel cliente;
+  private VeiculoModel veiculo;
+  private RevendaModel loja;
+  private UsuarioModel resposavel;
 }

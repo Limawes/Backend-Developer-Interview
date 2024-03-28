@@ -31,7 +31,6 @@ CREATE TABLE IF NOT EXISTS Clientes (
 
 CREATE TABLE IF NOT EXISTS Oportunidades (
     id_oportunidade SERIAL PRIMARY KEY,
-    codigo_identificador VARCHAR(50) UNIQUE NOT NULL,
     status VARCHAR(20) NOT NULL DEFAULT 'novo',
     motivo_conclusao TEXT,
     cliente_id INT REFERENCES Clientes(id),

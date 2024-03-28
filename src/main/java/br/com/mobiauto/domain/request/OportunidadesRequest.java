@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class OportunidadesRequest {
   private Long idOportunidade;
-  private String codigoIdentificador;
   private String status;
   private String motivoConclusao;
   private LocalDateTime dataAtribuicao;

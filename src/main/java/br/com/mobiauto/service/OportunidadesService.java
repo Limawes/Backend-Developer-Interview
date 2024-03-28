@@ -1,11 +1,12 @@
 package br.com.mobiauto.service;
 
 import br.com.mobiauto.domain.model.*;
-import br.com.mobiauto.domain.repository.OportunidadesRepository;
+import br.com.mobiauto.domain.repository.*;
 import br.com.mobiauto.domain.request.OportunidadesRequest;
 import br.com.mobiauto.domain.response.OportunidadesResponse;
 import br.com.mobiauto.domain.response.UsuarioResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,58 +21,75 @@ public class OportunidadesService {
   private final VeiculoService veiculoService;
   private final UsuarioService usuarioService;
   private final RevendaService revendaService;
+  private final UsuarioRepository usuarioRepository;
+  private final ClientesRepository clientesRepository;
+  private final VeiculoRepository veiculoRepository;
+  private final RevendaRepository revendaRepository;
 
-  public OportunidadesService(OportunidadesRepository oportunidadesRepository, ClientesService clientesService, VeiculoService veiculoService, UsuarioService usuarioService, RevendaService revendaService) {
+  public OportunidadesService(OportunidadesRepository oportunidadesRepository, ClientesService clientesService, VeiculoService veiculoService, UsuarioService usuarioService, RevendaService revendaService,
+                              UsuarioRepository usuarioRepository,
+                              ClientesRepository clientesRepository,
+                              VeiculoRepository veiculoRepository,
+                              RevendaRepository revendaRepository) {
     this.oportunidadesRepository = oportunidadesRepository;
     this.clientesService = clientesService;
     this.veiculoService = veiculoService;
     this.usuarioService = usuarioService;
     this.revendaService = revendaService;
+    this.usuarioRepository = usuarioRepository;
+    this.clientesRepository = clientesRepository;
+    this.veiculoRepository = veiculoRepository;
+    this.revendaRepository = revendaRepository;
   }
 
+  @Transactional
   public OportunidadeModel save(final OportunidadesRequest oportunidadesRequest, final Long oportunidade_id){
     OportunidadeModel oportunidadeModel = new OportunidadeModel();
-    Long cliente_id = null;
-    Long veiculo_id = null;
     Long responsavel_id = null;
-    Long loja_id = null;
 
     if(oportunidade_id != null){
       Optional<OportunidadeModel> oportunidades = oportunidadesRepository.findById(oportunidade_id);
       if(oportunidades.isEmpty()){
         throw new RuntimeException("Oportunidade não encontrada!");
       }
-      oportunidadeModel.setIdOportunidade(oportunidadesRequest.getIdOportunidade());
+      oportunidadeModel.setIdOportunidade(oportunidade_id);
     }
-    OportunidadeModel resultSet = oportunidadesRepository.findById(oportunidade_id).get();
-    cliente_id = resultSet.getClienteId().getIdCliente();
-    veiculo_id = resultSet.getVeiculoId().getIdVeiculo();
-    responsavel_id = resultSet.getResponsavelId().getIdUsuario();
-    loja_id = resultSet.getLojaId().getIdRevenda();
 
-
-    final ClienteModel clienteModel = clientesService
-      .findById(cliente_id);
-
-    final VeiculoModel veiculoModel = veiculoService
-      .findById(veiculo_id);
-
-    final UsuarioResponse usuarioModel = usuarioService
-      .findById(responsavel_id);
-
-    final RevendaModel revendaModel = revendaService
-      .findById(loja_id);
-
-    oportunidadeModel.setCodigoIdentificador(oportunidadesRequest.getCodigoIdentificador());
-    oportunidadeModel.setStatus(oportunidadesRequest.getStatus());
-    oportunidadeModel.setMotivoConclusao(oportunidadesRequest.getMotivoConclusao());
+    oportunidadeModel.setStatus(oportunidadesRequest.getStatus().isEmpty() ?
+      "novo" : oportunidadesRequest.getStatus());
+    if(
+      oportunidadesRequest.getStatus().equalsIgnoreCase("concluído")
+        || oportunidadesRequest.getStatus().equalsIgnoreCase("concluido")
+    ){
+      oportunidadeModel.setMotivoConclusao(oportunidadesRequest.getMotivoConclusao());
+    }
+    oportunidadeModel.setMotivoConclusao(null);
     oportunidadeModel.setDataAtribuicao(oportunidadesRequest.getDataAtribuicao());
     oportunidadeModel.setDataConclusao(oportunidadesRequest.getDataConclusao());
-    oportunidadeModel.setClienteId(clienteModel);
-    oportunidadeModel.setVeiculoId(veiculoModel);
-//    oportunidadeModel.setResponsavelId();
-    oportunidadeModel.setLojaId(revendaModel);
 
+    if(oportunidadesRequest.getClienteId() != null){
+      ClienteModel cliente = clientesRepository.findById(oportunidadesRequest.getClienteId())
+        .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
+      oportunidadeModel.setClienteId(cliente);
+    }
+
+    if(oportunidadesRequest.getVeiculoId() != null){
+      VeiculoModel veiculo = veiculoRepository.findById(oportunidadesRequest.getVeiculoId())
+        .orElseThrow(() -> new IllegalArgumentException("Veículo não encontrado"));
+      oportunidadeModel.setVeiculoId(veiculo);
+    }
+
+    if(oportunidadesRequest.getLojaId() != null){
+      RevendaModel revenda = revendaRepository.findById(oportunidadesRequest.getLojaId())
+        .orElseThrow(() -> new IllegalArgumentException("Revenda não encontrada"));
+      oportunidadeModel.setLojaId(revenda);
+    }
+
+    if(oportunidadesRequest.getResponsavelId() != null){
+      UsuarioModel usuario = usuarioRepository.findById(oportunidadesRequest.getResponsavelId())
+        .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+      oportunidadeModel.setResponsavelId(usuario);
+    }
     return oportunidadesRepository.save(oportunidadeModel);
   }
 
@@ -91,14 +109,14 @@ public class OportunidadesService {
       OportunidadesResponse oportunidadesResponse = new OportunidadesResponse();
 
       oportunidadesResponse.setIdOportunidade(oportunidade.getIdOportunidade());
-      oportunidadesResponse.setClienteId(oportunidadesResponse.getClienteId());
+      oportunidadesResponse.setCliente(oportunidade.getClienteId());
       oportunidadesResponse.setStatus(oportunidade.getStatus());
-      oportunidadesResponse.setCodigoIdentificador(oportunidade.getCodigoIdentificador());
       oportunidadesResponse.setDataAtribuicao(oportunidade.getDataAtribuicao());
       oportunidadesResponse.setDataConclusao(oportunidade.getDataConclusao());
       oportunidadesResponse.setMotivoConclusao(oportunidade.getMotivoConclusao());
-      oportunidadesResponse.setLojaId(oportunidadesResponse.getLojaId());
-      oportunidadesResponse.setVeiculoId(oportunidadesResponse.getVeiculoId());
+      oportunidadesResponse.setLoja(oportunidade.getLojaId());
+      oportunidadesResponse.setVeiculo(oportunidade.getVeiculoId());
+      oportunidadesResponse.setResposavel(oportunidade.getResponsavelId());
 
       oportunidadesResponseList.add(oportunidadesResponse);
     }
@@ -113,4 +131,6 @@ public class OportunidadesService {
     }
     oportunidadesRepository.getById(id);
   }
+
+
 }

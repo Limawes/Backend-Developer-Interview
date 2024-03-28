@@ -16,9 +16,6 @@ public class OportunidadeModel {
   @Column(name = "id_oportunidade", unique = true, nullable = false)
   private Long idOportunidade;
 
-  @Column(name = "codigo_identificador", unique = true, nullable = false)
-  private String codigoIdentificador;
-
   @Column(name = "status")
   private String status;
 
