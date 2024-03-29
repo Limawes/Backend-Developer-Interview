@@ -6,13 +6,14 @@ spring:
     username: "postgres"
     password: "Wa20112016"
     driverClassName: "org.postgresql.Driver"
+  sql:
+    init:
+      mode: always
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
-      javax:
-        persistence:
-          schema-generation:
-            create-source: metadata
-            scripts:
-              create-target: classpath:db/migration/init_database.sql
+      hibernate:
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true

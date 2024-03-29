@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UsuariosCargosResponse {
   private Long id;
-  private UsuarioModel usuarioId;
-  private CargoModel cargoId;
+  private UsuarioModel usuario;
+  private CargoModel cargo;
 }

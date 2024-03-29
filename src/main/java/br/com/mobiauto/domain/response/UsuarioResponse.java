@@ -14,5 +14,5 @@ public class UsuarioResponse {
   private String nome;
   private String email;
   private CargoResponse cargo;
-  private RevendaResponse lojaId;
+  private RevendaResponse loja;
 }

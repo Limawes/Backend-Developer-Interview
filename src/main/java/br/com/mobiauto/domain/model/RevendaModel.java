@@ -15,9 +15,6 @@ public class RevendaModel {
   @Column(name = "id_revenda", updatable = false, nullable = false)
   private Long idRevenda;
 
-  @Column(name = "codigo_identificador", unique = true, nullable = false)
-  private String codigoIdentificador;
-
   @Column(name = "cnpj", unique = true, nullable = false)
   private String cnpj;
 

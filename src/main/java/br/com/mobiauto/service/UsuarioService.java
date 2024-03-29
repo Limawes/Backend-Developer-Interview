@@ -74,7 +74,7 @@ public class UsuarioService {
     if(usuariosRequest.getLojaId() != null){
       RevendaModel loja = revendaRepository.findById(usuariosRequest.getLojaId())
         .orElseThrow(() -> new IllegalArgumentException("Loja não encontrada!"));
-      usuarioModel.setLojaId(loja);
+      usuarioModel.setLoja(loja);
     }
 
     return usuarioRepository.save(usuarioModel);
@@ -86,7 +86,7 @@ public class UsuarioService {
     if(usuarioResponse.getIdUsuario().equals(id)){
       usuarioResponse.setIdUsuario(usuarioResponse.getIdUsuario());
       usuarioResponse.setCargo(usuarioResponse.getCargo());
-      usuarioResponse.setLojaId(usuarioResponse.getLojaId());
+      usuarioResponse.setLoja(usuarioResponse.getLoja());
       usuarioResponse.setNome(usuarioResponse.getNome());
       usuarioResponse.setEmail(usuarioResponse.getEmail());
     }
@@ -103,7 +103,7 @@ public class UsuarioService {
       usuarioResponse.setNome(usuario.getNome());
       usuarioResponse.setEmail(usuario.getEmail());
       usuarioResponse.setCargo(usuarioResponse.getCargo());
-      usuarioResponse.setLojaId(usuarioResponse.getLojaId());
+      usuarioResponse.setLoja(usuarioResponse.getLoja());
 
       usuarioResponseList.add(usuarioResponse);
     }

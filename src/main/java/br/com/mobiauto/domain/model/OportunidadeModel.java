@@ -29,18 +29,18 @@ public class OportunidadeModel {
   private LocalDateTime dataConclusao;
 
   @ManyToOne
-  @JoinColumn(name = "cliente_id_id")
-  private ClienteModel clienteId;
+  @JoinColumn(name = "id_cliente")
+  private ClienteModel cliente;
 
   @ManyToOne
-  @JoinColumn(name = "veiculo_id")
-  private VeiculoModel veiculoId;
+  @JoinColumn(name = "id_veiculo")
+  private VeiculoModel veiculo;
 
   @ManyToOne
-  @JoinColumn(name = "loja_id")
-  private RevendaModel lojaId;
+  @JoinColumn(name = "id_revenda")
+  private RevendaModel loja;
 
   @OneToOne
-  @JoinColumn(name = "responsavel_id")
+  @JoinColumn(name = "id_responsavel")
   private UsuarioModel responsavelId;
 }

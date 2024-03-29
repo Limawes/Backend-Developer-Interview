@@ -6,6 +6,7 @@ import br.com.mobiauto.domain.response.OportunidadesResponse;
 import br.com.mobiauto.service.OportunidadesService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

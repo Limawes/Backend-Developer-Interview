@@ -39,12 +39,6 @@ public class RevendaService {
     }
     revendaModel.setCnpj(revendasRequest.getCnpj());
     revendaModel.setNomeSocial(revendasRequest.getNomeSocial());
-    //e verifico se o codigo identificador ja está sendo utilizado
-    if(revendaRepository.existsByCodigoIdentificador(revendasRequest.getCodigoIdentificador())){
-      throw new RuntimeException("Esse código já está sendo utilizado!");
-    }
-    revendaModel.setCodigoIdentificador(revendasRequest.getCodigoIdentificador());
-
     return revendaRepository.save(revendaModel);
   }
 
@@ -64,7 +58,6 @@ public class RevendaService {
       RevendaResponse revendaResponse = new RevendaResponse();
         revendaResponse.setIdRevenda(revenda.getIdRevenda());
         revendaResponse.setCnpj(revenda.getCnpj());
-        revendaResponse.setCodigoIdentificador(revenda.getCodigoIdentificador());
         revendaResponse.setNomeSocial(revenda.getNomeSocial());
 
       revendaResponseList.add(revendaResponse);

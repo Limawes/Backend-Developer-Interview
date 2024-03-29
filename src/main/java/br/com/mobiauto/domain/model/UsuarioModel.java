@@ -29,13 +29,13 @@ public class UsuarioModel {
   @ManyToMany
   @JoinTable(
     name = "usuario_cargo",
-    joinColumns = @JoinColumn(name = "usuario_id"),
-    inverseJoinColumns = @JoinColumn(name = "cargo_id"))
+    joinColumns = @JoinColumn(name = "id_usuario"),
+    inverseJoinColumns = @JoinColumn(name = "id_cargo"))
   private List<CargoModel> cargo;
 
 
   @ManyToOne
-  @JoinColumn(name = "loja_id")
-  private RevendaModel lojaId;
+  @JoinColumn(name = "id_revenda")
+  private RevendaModel loja;
 
 }

@@ -1,9 +1,8 @@
+-- https://docs.spring.io/spring-boot/docs/current/reference/html/howto.html#howto.data-initialization
 CREATE TABLE IF NOT EXISTS Revendas (
     id_revenda SERIAL PRIMARY KEY,
-    codigo_identificador VARCHAR(50) UNIQUE NOT NULL,
     cnpj VARCHAR(14) UNIQUE NOT NULL,
-    nome_social VARCHAR(100) NOT NULL,
-    ativo BOOLEAN DEFAULT true
+    nome_social VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Usuarios (
@@ -11,7 +10,7 @@ CREATE TABLE IF NOT EXISTS Usuarios (
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     senha VARCHAR(100) NOT NULL,
-    loja_id INT REFERENCES Revendas(id)
+    id_revenda INT REFERENCES Revendas(id_revenda)
 );
 
 CREATE TABLE IF NOT EXISTS Veiculos (
@@ -33,10 +32,10 @@ CREATE TABLE IF NOT EXISTS Oportunidades (
     id_oportunidade SERIAL PRIMARY KEY,
     status VARCHAR(20) NOT NULL DEFAULT 'novo',
     motivo_conclusao TEXT,
-    cliente_id INT REFERENCES Clientes(id),
-    veiculo_id INT REFERENCES Veiculos(id),
-    loja_id INT REFERENCES Revendas(id),
-    responsavel_id INT REFERENCES Usuarios(id),
+    id_cliente INT REFERENCES Clientes(id_cliente),
+    id_veiculo INT REFERENCES Veiculos(id_veiculo),
+    id_revenda INT REFERENCES Revendas(id_revenda),
+    id_responsavel INT REFERENCES Usuarios(id_usuario),
     data_atribuicao TIMESTAMP DEFAULT CURRENT_TIMESTAMP, --data e hora que uma oportunidade foi atribuida a um responsável
     data_conclusao TIMESTAMP -- data e hora que a oportunidade foi concluida
 );
@@ -53,28 +52,18 @@ CREATE TABLE IF NOT EXISTS Permissao(
 
 CREATE TABLE IF NOT EXISTS usuarios_cargos(
     id_usuarios_cargos SERIAL PRIMARY KEY,
-    usuario_id BIGINT REFERENCES Usuarios(id_usuario),
-    cargo_id BIGINT REFERENCES Cargos(id_cargo)
+    id_usuario BIGINT REFERENCES Usuarios(id_usuario),
+    id_cargo BIGINT REFERENCES Cargos(id_cargo)
 );
 
 CREATE TABLE IF NOT EXISTS cargos_permissao(
     id_cargos_permissao SERIAL PRIMARY KEY,
-    cargo_id BIGINT REFERENCES Cargos(id_cargo),
-    permissao_id BIGINT REFERENCES Permissao(id)
+    id_cargo BIGINT REFERENCES Cargos(id_cargo),
+    id_permissao BIGINT REFERENCES Permissao(id_permissao)
 );
 
-ALTER TABLE Usuarios
-ADD CONSTRAINT fk_loja_id
-FOREIGN KEY (loja_id)
-REFERENCES Revendas(id);
-
 --garantir somente valores válidos na tabela
+ALTER TABLE Oportunidades DROP CONSTRAINT IF EXISTS chk_status;
 ALTER TABLE Oportunidades
 ADD CONSTRAINT chk_status
 CHECK (status IN ('novo', 'em atendimento', 'concluido'));
-
-
-ALTER TABLE Oportunidades
-ADD CONSTRAINT fk_oportunidades_revendas
-FOREIGN KEY (loja_id)
-REFERENCES Revendas(id_revenda);

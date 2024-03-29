@@ -17,5 +17,5 @@ public interface RevendaRepository extends JpaRepository<RevendaModel, Long> {
   List<RevendaModel> findAll();
 
   Boolean existsByCnpj(String cnpj);
-  Boolean existsByCodigoIdentificador(String codigo);
+
 }

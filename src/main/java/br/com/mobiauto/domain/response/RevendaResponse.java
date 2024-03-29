@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RevendaResponse {
   private Long idRevenda;
-  private String codigoIdentificador;
   private String cnpj;
   private String nomeSocial;
 }

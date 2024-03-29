@@ -28,8 +28,8 @@ public class CargoModel {
   @ManyToMany
   @JoinTable(
     name = "cargos_permissao",
-    joinColumns = @JoinColumn(name = "cargo_id", referencedColumnName = "id_cargo"),
-    inverseJoinColumns = @JoinColumn(name = "permissao_id", referencedColumnName = "id_permissao")
+    joinColumns = @JoinColumn(name = "id_cargo"),
+    inverseJoinColumns = @JoinColumn(name = "id_permissao")
   )
   private List<PermissoesModel> permissoes;
 

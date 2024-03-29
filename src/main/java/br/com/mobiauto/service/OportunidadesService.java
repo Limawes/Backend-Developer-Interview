@@ -70,19 +70,19 @@ public class OportunidadesService {
     if(oportunidadesRequest.getClienteId() != null){
       ClienteModel cliente = clientesRepository.findById(oportunidadesRequest.getClienteId())
         .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
-      oportunidadeModel.setClienteId(cliente);
+      oportunidadeModel.setCliente(cliente);
     }
 
     if(oportunidadesRequest.getVeiculoId() != null){
       VeiculoModel veiculo = veiculoRepository.findById(oportunidadesRequest.getVeiculoId())
         .orElseThrow(() -> new IllegalArgumentException("Veículo não encontrado"));
-      oportunidadeModel.setVeiculoId(veiculo);
+      oportunidadeModel.setVeiculo(veiculo);
     }
 
     if(oportunidadesRequest.getLojaId() != null){
       RevendaModel revenda = revendaRepository.findById(oportunidadesRequest.getLojaId())
         .orElseThrow(() -> new IllegalArgumentException("Revenda não encontrada"));
-      oportunidadeModel.setLojaId(revenda);
+      oportunidadeModel.setLoja(revenda);
     }
 
     if(oportunidadesRequest.getResponsavelId() != null){
@@ -109,13 +109,13 @@ public class OportunidadesService {
       OportunidadesResponse oportunidadesResponse = new OportunidadesResponse();
 
       oportunidadesResponse.setIdOportunidade(oportunidade.getIdOportunidade());
-      oportunidadesResponse.setCliente(oportunidade.getClienteId());
+      oportunidadesResponse.setCliente(oportunidade.getCliente());
       oportunidadesResponse.setStatus(oportunidade.getStatus());
       oportunidadesResponse.setDataAtribuicao(oportunidade.getDataAtribuicao());
       oportunidadesResponse.setDataConclusao(oportunidade.getDataConclusao());
       oportunidadesResponse.setMotivoConclusao(oportunidade.getMotivoConclusao());
-      oportunidadesResponse.setLoja(oportunidade.getLojaId());
-      oportunidadesResponse.setVeiculo(oportunidade.getVeiculoId());
+      oportunidadesResponse.setLoja(oportunidade.getLoja());
+      oportunidadesResponse.setVeiculo(oportunidade.getVeiculo());
       oportunidadesResponse.setResposavel(oportunidade.getResponsavelId());
 
       oportunidadesResponseList.add(oportunidadesResponse);
