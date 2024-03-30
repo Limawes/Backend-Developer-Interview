@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class OportunidadeModel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id_oportunidade", unique = true, nullable = false)
+  @Column(name = "id_oportunidade")
   private Long idOportunidade;
 
   @Column(name = "status")

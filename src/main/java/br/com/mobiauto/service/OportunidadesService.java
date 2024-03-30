@@ -5,13 +5,11 @@ import br.com.mobiauto.domain.repository.*;
 import br.com.mobiauto.domain.request.OportunidadesRequest;
 import br.com.mobiauto.domain.response.OportunidadesResponse;
 import br.com.mobiauto.domain.response.UsuarioResponse;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class OportunidadesService {
@@ -132,5 +130,31 @@ public class OportunidadesService {
     oportunidadesRepository.getById(id);
   }
 
+  //A cada 10 minutos o sistema distribui as oportunidades para os responsáveis
+  @Scheduled(fixedRate = 6000)
+  public void ordernarOportunidade(){
+
+    List<OportunidadeModel> oportunidadePorResponsavel =
+      oportunidadesRepository.findAll();
+
+    Optional<OportunidadeModel> menorQuantidadeDeOportunidadesPorResponsavel =
+      oportunidadePorResponsavel.stream().min(Comparator.comparingInt(
+        e -> oportunidadesRepository.countOportunidadeByResponsavel(
+          e.getResponsavelId().getIdUsuario()).size()));
+
+    menorQuantidadeDeOportunidadesPorResponsavel.ifPresent(
+      oportunidade -> {
+        List<OportunidadeModel> oportunidadeSemResponsavel =
+          oportunidadesRepository.oportunidadeSemResponsavel();
+        if(
+          !oportunidadeSemResponsavel.isEmpty()
+            && oportunidade.getStatus().equalsIgnoreCase("em andamento")){
+          oportunidadeSemResponsavel.get(0).setResponsavelId(oportunidade.getResponsavelId());
+          System.out.println("Passei aqui 1");
+        } else
+          throw new RuntimeException("Nao ha oportunidades sem responsavel para atribuir");
+      }
+    );
+  }
 
 }

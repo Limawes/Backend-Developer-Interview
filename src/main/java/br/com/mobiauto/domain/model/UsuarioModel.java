@@ -28,7 +28,7 @@ public class UsuarioModel {
 
   @ManyToMany
   @JoinTable(
-    name = "usuario_cargo",
+    name = "usuarios_cargo",
     joinColumns = @JoinColumn(name = "id_usuario"),
     inverseJoinColumns = @JoinColumn(name = "id_cargo"))
   private List<CargoModel> cargo;

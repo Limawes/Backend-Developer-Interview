@@ -16,11 +16,11 @@ public class UsuariosCargosModel {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "usuario_id")
+  @JoinColumn(name = "id_usuario")
   private UsuarioModel usuarioId;
 
   @ManyToOne
-  @JoinColumn(name = "cargo_id")
+  @JoinColumn(name = "id_cargo")
   private CargoModel cargoId;
 
 }
