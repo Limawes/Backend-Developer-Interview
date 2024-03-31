@@ -13,8 +13,6 @@ public class OportunidadesRequest {
   private Long idOportunidade;
   private String status;
   private String motivoConclusao;
-  private LocalDateTime dataAtribuicao;
-  private LocalDateTime dataConclusao;
   private Long clienteId;
   private Long veiculoId;
   private Long lojaId;

@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -45,6 +46,7 @@ public class OportunidadesService {
     OportunidadeModel oportunidadeModel = new OportunidadeModel();
     Long responsavel_id = null;
 
+    //Verificando se é pra atualizar ou criar novo
     if(oportunidade_id != null){
       Optional<OportunidadeModel> oportunidades = oportunidadesRepository.findById(oportunidade_id);
       if(oportunidades.isEmpty()){
@@ -53,17 +55,18 @@ public class OportunidadesService {
       oportunidadeModel.setIdOportunidade(oportunidade_id);
     }
 
+    oportunidadeModel.setDataAtribuicao(LocalDateTime.now());
     oportunidadeModel.setStatus(oportunidadesRequest.getStatus().isEmpty() ?
       "novo" : oportunidadesRequest.getStatus());
-    if(
-      oportunidadesRequest.getStatus().equalsIgnoreCase("concluído")
-        || oportunidadesRequest.getStatus().equalsIgnoreCase("concluido")
+    if(oportunidade_id != null &&
+      (oportunidadesRequest.getStatus().equalsIgnoreCase("concluido")
+      || oportunidadesRequest.getStatus().equalsIgnoreCase("concluído"))
     ){
+      oportunidadeModel.setDataConclusao(LocalDateTime.now());
       oportunidadeModel.setMotivoConclusao(oportunidadesRequest.getMotivoConclusao());
+    }else {
+      oportunidadeModel.setMotivoConclusao(null);
     }
-    oportunidadeModel.setMotivoConclusao(null);
-    oportunidadeModel.setDataAtribuicao(oportunidadesRequest.getDataAtribuicao());
-    oportunidadeModel.setDataConclusao(oportunidadesRequest.getDataConclusao());
 
     if(oportunidadesRequest.getClienteId() != null){
       ClienteModel cliente = clientesRepository.findById(oportunidadesRequest.getClienteId())
@@ -86,7 +89,12 @@ public class OportunidadesService {
     if(oportunidadesRequest.getResponsavelId() != null){
       UsuarioModel usuario = usuarioRepository.findById(oportunidadesRequest.getResponsavelId())
         .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
-      oportunidadeModel.setResponsavelId(usuario);
+      if(Objects.equals(usuario.getLoja().getIdRevenda(), oportunidadesRequest.getLojaId())){
+        oportunidadeModel.setResponsavelId(usuario);
+      }else {
+        throw new RuntimeException("Este usuario nao pertence a revenda: {}"
+          + oportunidadesRequest.getLojaId());
+      }
     }
     return oportunidadesRepository.save(oportunidadeModel);
   }
@@ -131,7 +139,7 @@ public class OportunidadesService {
   }
 
   //A cada 10 minutos o sistema distribui as oportunidades para os responsáveis
-  @Scheduled(fixedRate = 6000)
+//  @Scheduled(fixedRate = 6000)
   public void ordernarOportunidade(){
 
     List<OportunidadeModel> oportunidadePorResponsavel =
