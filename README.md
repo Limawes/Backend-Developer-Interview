@@ -1,5 +1,17 @@
 # Backend-Developer-Interview
 
+#### Este projeto tem a finalidade de fornecer uma ferramenta de gestão de revenda de veículos.
+
+      As tecnologias utilizadas são:
+        * Java 11
+        * Spring Boot 2.6.4
+        * Maven
+        * Docker
+        * PostgreSQL
+        * JWT
+        * Swagger
+        * Spring-Security
+
 * Para iniciar a aplicação rode os seguintes comandos no terminal na raiz do projeto:
 
     >- **docker-compose up** (Cria os contêineres e os inicia)
