@@ -54,7 +54,7 @@ usuarios somente em suas lojas.
     Realizando a requisição de login, vai ser retornado um token, onde será utilizado
     para as demais requisições.
     Pode ser feito via postman(recomendação)/insomnia ou pelo Swagger 
-    Caso queira utilizar, vou deixar disponível um arquivo do postman.
+    Caso queira utilizar, vou deixar disponível um arquivo do postman(envio no e-mail com o link do repositório).
 
 ### Swagger
 * http://localhost:8080/swagger-ui.html
