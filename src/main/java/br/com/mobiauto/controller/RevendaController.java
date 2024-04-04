@@ -23,7 +23,7 @@ public class RevendaController {
     this.revendaService = revendaService;
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO')")
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity create(@RequestBody RevendasRequest revendasRequest){
@@ -32,7 +32,7 @@ public class RevendaController {
     return ResponseEntity.created(null).build();
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO')")
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<RevendaResponse> findAll(){
@@ -40,7 +40,7 @@ public class RevendaController {
     return revendaService.findAll();
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO')")
   @GetMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public RevendaModel findById(@PathVariable Long id){
@@ -48,7 +48,7 @@ public class RevendaController {
     return revendaService.findById(id);
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO')")
   @PutMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity update(@RequestBody RevendasRequest revendasRequest, Long id){
@@ -57,7 +57,7 @@ public class RevendaController {
     return ResponseEntity.ok().build();
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO')")
   @DeleteMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void delete(@PathVariable Long id){

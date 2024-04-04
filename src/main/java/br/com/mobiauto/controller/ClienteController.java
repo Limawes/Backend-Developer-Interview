@@ -23,7 +23,7 @@ public class ClienteController {
     this.clientesService = clientesService;
   }
 
-  @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE')")
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity create(@RequestBody ClientesRequest clientesRequest){
@@ -32,7 +32,7 @@ public class ClienteController {
     return ResponseEntity.created(null).build();
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE', 'ROLE_ASSISTENTE')")
   @GetMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public ClienteModel findById(@PathVariable Long id){
@@ -40,14 +40,14 @@ public class ClienteController {
     return clientesService.findById(id);
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE', 'ROLE_ASSISTENTE')")
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<ClientesResponse> findAll(){
     return clientesService.findAll();
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO')")
   @PutMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity update(@RequestBody ClientesRequest clientesRequest, @PathVariable Long id){
@@ -56,7 +56,7 @@ public class ClienteController {
     return ResponseEntity.ok().build();
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO')")
   @DeleteMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void deleteById(@PathVariable Long id){

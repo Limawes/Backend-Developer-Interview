@@ -23,7 +23,7 @@ public class OportunidadeController {
     this.oportunidadesService = oportunidadesService;
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE', 'ROLE_ASSISTENTE')")
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity create(@RequestBody OportunidadesRequest oportunidadesRequest){
@@ -32,7 +32,7 @@ public class OportunidadeController {
     return ResponseEntity.created(null).build();
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE', 'ROLE_ASSISTENTE')")
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<OportunidadesResponse> findAll(){
@@ -40,7 +40,7 @@ public class OportunidadeController {
     return oportunidadesService.findAll();
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE', 'ROLE_ASSISTENTE')")
   @GetMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public OportunidadeModel findById(@PathVariable Long id){
@@ -48,7 +48,7 @@ public class OportunidadeController {
     return oportunidadesService.findById(id);
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE', 'ROLE_ASSISTENTE')")
   @PutMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity update(
@@ -59,7 +59,7 @@ public class OportunidadeController {
     return ResponseEntity.ok().build();
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE', 'ROLE_ASSISTENTE')")
   @DeleteMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void delete(@PathVariable Long id){

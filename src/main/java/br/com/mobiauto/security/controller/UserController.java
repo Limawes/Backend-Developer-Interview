@@ -25,7 +25,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity create(@RequestBody UserRequest userRequest) {
@@ -34,7 +34,7 @@ public class UserController {
         return ResponseEntity.created(null).build();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO')")
     @PutMapping("/id/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity update(@RequestBody UserRequest userRequest, @PathVariable Long id) {
@@ -43,7 +43,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE')")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<UserResponse> findAll() {
@@ -51,7 +51,7 @@ public class UserController {
         return userService.findAll();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE')")
     @GetMapping("/id/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserResponse findById(@PathVariable Long id) {

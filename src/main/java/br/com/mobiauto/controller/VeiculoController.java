@@ -24,7 +24,7 @@ public class VeiculoController {
     this.veiculoService = veiculoService;
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE', 'ROLE_ASSISTENTE')")
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity create(@RequestBody VeiculosRequest veiculosRequest){
@@ -33,7 +33,7 @@ public class VeiculoController {
     return ResponseEntity.created(null).build();
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE', 'ROLE_ASSISTENTE')")
   @GetMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public VeiculoModel findById(@PathVariable Long id){
@@ -41,7 +41,7 @@ public class VeiculoController {
     return veiculoService.findById(id);
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE', 'ROLE_ASSISTENTE')")
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<VeiculoResponse> findAll(){
@@ -49,7 +49,7 @@ public class VeiculoController {
     return veiculoService.findAll();
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE', 'ROLE_ASSISTENTE')")
   @PutMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity update(@RequestBody VeiculosRequest veiculosRequest, @PathVariable Long id){
@@ -58,7 +58,7 @@ public class VeiculoController {
     return ResponseEntity.ok().build();
   }
 
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_PROPIETARIO', 'ROLE_GERENTE', 'ROLE_ASSISTENTE')")
   @DeleteMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void deleteById(@PathVariable Long id){
