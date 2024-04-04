@@ -17,14 +17,19 @@ public interface OportunidadesRepository extends JpaRepository<OportunidadeModel
   @Override
   List<OportunidadeModel> findAll();
 
-  //Buscar oportunidades de uma loja específica
-  @Query(value = "select * from Oportunidades where loja_id = :id_loja", nativeQuery = true)
-  List<OportunidadeModel> findByLojaId(Long id_loja);
+  @Query(value = "SELECT id_responsavel, COUNT(*) AS oportunidades_count " +
+    "FROM tbl_oportunidades " +
+    "GROUP BY id_responsavel " +
+    "ORDER BY oportunidades_count ASC " +
+    "LIMIT 1", nativeQuery = true)
+  List<Object[]> findResponsavelComMenosOportunidades();
+
+
 
   @Query(value = "select count(*) from Oportunidades where id_responsavel = :id_responsavel", nativeQuery = true)
-  List<OportunidadeModel> countOportunidadeByResponsavel(Long id_responsavel);
+  Long countOportunidadeByResponsavel(Long id_responsavel);
 
-  @Query(value = "select * from Oportunidades where id_responsavel is null", nativeQuery = true)
+  @Query(value = "select * from tbl_oportunidades where id_responsavel is null", nativeQuery = true)
   List<OportunidadeModel> oportunidadeSemResponsavel();
 
 }

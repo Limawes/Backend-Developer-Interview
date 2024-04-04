@@ -4,10 +4,11 @@ import br.com.mobiauto.domain.model.VeiculoModel;
 import br.com.mobiauto.domain.request.VeiculosRequest;
 import br.com.mobiauto.domain.response.VeiculoResponse;
 import br.com.mobiauto.service.VeiculoService;
-import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class VeiculoController {
     this.veiculoService = veiculoService;
   }
 
-  @Operation(summary = "Criando um veiculo")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity create(@RequestBody VeiculosRequest veiculosRequest){
@@ -32,7 +33,7 @@ public class VeiculoController {
     return ResponseEntity.created(null).build();
   }
 
-  @Operation(summary = "Buscando um veiculo")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @GetMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public VeiculoModel findById(@PathVariable Long id){
@@ -40,7 +41,7 @@ public class VeiculoController {
     return veiculoService.findById(id);
   }
 
-  @Operation(summary = "Buscando todos veiculos")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<VeiculoResponse> findAll(){
@@ -48,7 +49,7 @@ public class VeiculoController {
     return veiculoService.findAll();
   }
 
-  @Operation(summary = "Atualizando um veiculo")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PutMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity update(@RequestBody VeiculosRequest veiculosRequest, @PathVariable Long id){
@@ -57,7 +58,7 @@ public class VeiculoController {
     return ResponseEntity.ok().build();
   }
 
-  @Operation(summary = "Deletando um veiculo pelo id")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @DeleteMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void deleteById(@PathVariable Long id){

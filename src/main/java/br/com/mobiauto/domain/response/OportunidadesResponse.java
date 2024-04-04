@@ -2,12 +2,8 @@ package br.com.mobiauto.domain.response;
 
 import br.com.mobiauto.domain.model.ClienteModel;
 import br.com.mobiauto.domain.model.RevendaModel;
-import br.com.mobiauto.domain.model.UsuarioModel;
 import br.com.mobiauto.domain.model.VeiculoModel;
-import br.com.mobiauto.domain.request.ClientesRequest;
-import br.com.mobiauto.domain.request.RevendasRequest;
-import br.com.mobiauto.domain.request.UsuariosRequest;
-import br.com.mobiauto.domain.request.VeiculosRequest;
+import br.com.mobiauto.security.domain.model.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,5 +24,5 @@ public class OportunidadesResponse {
   private ClienteModel cliente;
   private VeiculoModel veiculo;
   private RevendaModel loja;
-  private UsuarioModel resposavel;
+  private UserModel resposavel;
 }

@@ -4,10 +4,10 @@ import br.com.mobiauto.domain.model.RevendaModel;
 import br.com.mobiauto.domain.request.RevendasRequest;
 import br.com.mobiauto.domain.response.RevendaResponse;
 import br.com.mobiauto.service.RevendaService;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class RevendaController {
     this.revendaService = revendaService;
   }
 
-  @Operation(summary = "Criando uma revenda")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity create(@RequestBody RevendasRequest revendasRequest){
@@ -32,7 +32,7 @@ public class RevendaController {
     return ResponseEntity.created(null).build();
   }
 
-  @Operation(summary = "Buscando revendas")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<RevendaResponse> findAll(){
@@ -40,7 +40,7 @@ public class RevendaController {
     return revendaService.findAll();
   }
 
-  @Operation(summary = "Buscando uma revenda")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @GetMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public RevendaModel findById(@PathVariable Long id){
@@ -48,7 +48,7 @@ public class RevendaController {
     return revendaService.findById(id);
   }
 
-  @Operation(summary = "Atualizando revenda")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PutMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity update(@RequestBody RevendasRequest revendasRequest, Long id){
@@ -57,7 +57,7 @@ public class RevendaController {
     return ResponseEntity.ok().build();
   }
 
-  @Operation(summary = "Deletando uma revenda pelo id")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @DeleteMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void delete(@PathVariable Long id){

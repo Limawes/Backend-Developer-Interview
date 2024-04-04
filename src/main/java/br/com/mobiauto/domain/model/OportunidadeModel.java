@@ -1,5 +1,6 @@
 package br.com.mobiauto.domain.model;
 
+import br.com.mobiauto.security.domain.model.UserModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "Oportunidades")
+@Table(name = "TBL_OPORTUNIDADES")
 public class OportunidadeModel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,5 +43,5 @@ public class OportunidadeModel {
 
   @OneToOne
   @JoinColumn(name = "id_responsavel")
-  private UsuarioModel responsavelId;
+  private UserModel responsavelId;
 }

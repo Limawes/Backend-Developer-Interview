@@ -4,11 +4,10 @@ import br.com.mobiauto.domain.model.OportunidadeModel;
 import br.com.mobiauto.domain.request.OportunidadesRequest;
 import br.com.mobiauto.domain.response.OportunidadesResponse;
 import br.com.mobiauto.service.OportunidadesService;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public class OportunidadeController {
     this.oportunidadesService = oportunidadesService;
   }
 
-  @Operation(summary = "Criando uma oportunidade")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity create(@RequestBody OportunidadesRequest oportunidadesRequest){
@@ -33,7 +32,7 @@ public class OportunidadeController {
     return ResponseEntity.created(null).build();
   }
 
-  @Operation(summary = "Buscando oportunidade")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<OportunidadesResponse> findAll(){
@@ -41,7 +40,7 @@ public class OportunidadeController {
     return oportunidadesService.findAll();
   }
 
-  @Operation(summary = "Buscando uma oportunidade")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @GetMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public OportunidadeModel findById(@PathVariable Long id){
@@ -49,16 +48,18 @@ public class OportunidadeController {
     return oportunidadesService.findById(id);
   }
 
-  @Operation(summary = "Atualizando oportunidade")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PutMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public ResponseEntity update(@RequestBody OportunidadesRequest oportunidadesRequest, Long id){
+  public ResponseEntity update(
+                        @RequestBody OportunidadesRequest oportunidadesRequest,
+                        @PathVariable Long id){
     log.info("Atualizando a oportunidade: {}", oportunidadesRequest);
     oportunidadesService.save(oportunidadesRequest, id);
     return ResponseEntity.ok().build();
   }
 
-  @Operation(summary = "Deletando uma oportunidade pelo id")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @DeleteMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void delete(@PathVariable Long id){

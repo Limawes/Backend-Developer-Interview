@@ -4,52 +4,63 @@ import br.com.mobiauto.domain.model.*;
 import br.com.mobiauto.domain.repository.*;
 import br.com.mobiauto.domain.request.OportunidadesRequest;
 import br.com.mobiauto.domain.response.OportunidadesResponse;
-import br.com.mobiauto.domain.response.UsuarioResponse;
+import br.com.mobiauto.security.domain.model.UserModel;
+import br.com.mobiauto.security.domain.repository.UserRepository;
+import br.com.mobiauto.security.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.Queue;
 import java.util.*;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class OportunidadesService {
 
   private final OportunidadesRepository oportunidadesRepository;
   private final ClientesService clientesService;
   private final VeiculoService veiculoService;
-  private final UsuarioService usuarioService;
+  private final UserService userService;
   private final RevendaService revendaService;
-  private final UsuarioRepository usuarioRepository;
+  private final UserRepository userRepository;
   private final ClientesRepository clientesRepository;
   private final VeiculoRepository veiculoRepository;
   private final RevendaRepository revendaRepository;
 
-  public OportunidadesService(OportunidadesRepository oportunidadesRepository, ClientesService clientesService, VeiculoService veiculoService, UsuarioService usuarioService, RevendaService revendaService,
-                              UsuarioRepository usuarioRepository,
+  @Autowired
+  private Queue<OportunidadeModel> filaDeOportunidades;
+
+  public OportunidadesService(OportunidadesRepository oportunidadesRepository, ClientesService clientesService, VeiculoService veiculoService, UserService userService, RevendaService revendaService,
+                              UserRepository userRepository,
                               ClientesRepository clientesRepository,
                               VeiculoRepository veiculoRepository,
                               RevendaRepository revendaRepository) {
     this.oportunidadesRepository = oportunidadesRepository;
     this.clientesService = clientesService;
     this.veiculoService = veiculoService;
-    this.usuarioService = usuarioService;
+    this.userService = userService;
     this.revendaService = revendaService;
-    this.usuarioRepository = usuarioRepository;
+    this.userRepository = userRepository;
     this.clientesRepository = clientesRepository;
     this.veiculoRepository = veiculoRepository;
     this.revendaRepository = revendaRepository;
   }
 
   @Transactional
-  public OportunidadeModel save(final OportunidadesRequest oportunidadesRequest, final Long oportunidade_id){
+  public OportunidadeModel save(final OportunidadesRequest oportunidadesRequest, final Long oportunidade_id) {
     OportunidadeModel oportunidadeModel = new OportunidadeModel();
     Long responsavel_id = null;
 
     //Verificando se é pra atualizar ou criar novo
-    if(oportunidade_id != null){
+    if (oportunidade_id != null) {
       Optional<OportunidadeModel> oportunidades = oportunidadesRepository.findById(oportunidade_id);
-      if(oportunidades.isEmpty()){
+      if (oportunidades.isEmpty()) {
         throw new RuntimeException("Oportunidade não encontrada!");
       }
       oportunidadeModel.setIdOportunidade(oportunidade_id);
@@ -58,40 +69,40 @@ public class OportunidadesService {
     oportunidadeModel.setDataAtribuicao(LocalDateTime.now());
     oportunidadeModel.setStatus(oportunidadesRequest.getStatus().isEmpty() ?
       "novo" : oportunidadesRequest.getStatus());
-    if(oportunidade_id != null &&
+    if (oportunidade_id != null &&
       (oportunidadesRequest.getStatus().equalsIgnoreCase("concluido")
-      || oportunidadesRequest.getStatus().equalsIgnoreCase("concluído"))
-    ){
+        || oportunidadesRequest.getStatus().equalsIgnoreCase("concluído"))
+    ) {
       oportunidadeModel.setDataConclusao(LocalDateTime.now());
       oportunidadeModel.setMotivoConclusao(oportunidadesRequest.getMotivoConclusao());
-    }else {
+    } else {
       oportunidadeModel.setMotivoConclusao(null);
     }
 
-    if(oportunidadesRequest.getClienteId() != null){
+    if (oportunidadesRequest.getClienteId() != null) {
       ClienteModel cliente = clientesRepository.findById(oportunidadesRequest.getClienteId())
         .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
       oportunidadeModel.setCliente(cliente);
     }
 
-    if(oportunidadesRequest.getVeiculoId() != null){
+    if (oportunidadesRequest.getVeiculoId() != null) {
       VeiculoModel veiculo = veiculoRepository.findById(oportunidadesRequest.getVeiculoId())
         .orElseThrow(() -> new IllegalArgumentException("Veículo não encontrado"));
       oportunidadeModel.setVeiculo(veiculo);
     }
 
-    if(oportunidadesRequest.getLojaId() != null){
+    if (oportunidadesRequest.getLojaId() != null) {
       RevendaModel revenda = revendaRepository.findById(oportunidadesRequest.getLojaId())
         .orElseThrow(() -> new IllegalArgumentException("Revenda não encontrada"));
       oportunidadeModel.setLoja(revenda);
     }
 
-    if(oportunidadesRequest.getResponsavelId() != null){
-      UsuarioModel usuario = usuarioRepository.findById(oportunidadesRequest.getResponsavelId())
+    if (oportunidadesRequest.getResponsavelId() != null) {
+      UserModel usuario = userRepository.findById(oportunidadesRequest.getResponsavelId())
         .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
-      if(Objects.equals(usuario.getLoja().getIdRevenda(), oportunidadesRequest.getLojaId())){
+      if (Objects.equals(usuario.getLoja().getIdRevenda(), oportunidadesRequest.getLojaId())) {
         oportunidadeModel.setResponsavelId(usuario);
-      }else {
+      } else {
         throw new RuntimeException("Este usuario nao pertence a revenda: {}"
           + oportunidadesRequest.getLojaId());
       }
@@ -99,19 +110,19 @@ public class OportunidadesService {
     return oportunidadesRepository.save(oportunidadeModel);
   }
 
-  public OportunidadeModel findById(final Long id){
+  public OportunidadeModel findById(final Long id) {
     Optional<OportunidadeModel> oportunidadeModel = oportunidadesRepository.findById(id);
-    if(Objects.isNull(oportunidadeModel)){
+    if (Objects.isNull(oportunidadeModel)) {
       throw new RuntimeException("Essa oportunidade não foi encontrada!");
     }
     return oportunidadeModel.get();
   }
 
-  public List<OportunidadesResponse> findAll(){
+  public List<OportunidadesResponse> findAll() {
     List<OportunidadeModel> oportunidades = oportunidadesRepository.findAll();
     List<OportunidadesResponse> oportunidadesResponseList = new ArrayList<>();
 
-    for(OportunidadeModel oportunidade : oportunidades){
+    for (OportunidadeModel oportunidade : oportunidades) {
       OportunidadesResponse oportunidadesResponse = new OportunidadesResponse();
 
       oportunidadesResponse.setIdOportunidade(oportunidade.getIdOportunidade());
@@ -130,39 +141,58 @@ public class OportunidadesService {
     return oportunidadesResponseList;
   }
 
-  public void deleteById(final Long id){
+  public void deleteById(final Long id) {
     OportunidadeModel oportunidadeModel = new OportunidadeModel();
-    if(Objects.isNull(oportunidadeModel)){
+    if (Objects.isNull(oportunidadeModel)) {
       throw new RuntimeException("Sem dados para excluir");
     }
     oportunidadesRepository.getById(id);
   }
 
-  //A cada 10 minutos o sistema distribui as oportunidades para os responsáveis
-//  @Scheduled(fixedRate = 6000)
-  public void ordernarOportunidade(){
+  //A cada 5 minutos o sistema distribui as oportunidades para os responsáveis com menos oportunidades
+  @Scheduled(fixedRate = 300000)
+  public void ordernarOportunidade() {
+    OportunidadeModel oportunidadeModel = new OportunidadeModel();
 
-    List<OportunidadeModel> oportunidadePorResponsavel =
-      oportunidadesRepository.findAll();
+    List<OportunidadeModel> oportunidadeSemResponsavel
+      = oportunidadesRepository.oportunidadeSemResponsavel();
 
-    Optional<OportunidadeModel> menorQuantidadeDeOportunidadesPorResponsavel =
-      oportunidadePorResponsavel.stream().min(Comparator.comparingInt(
-        e -> oportunidadesRepository.countOportunidadeByResponsavel(
-          e.getResponsavelId().getIdUsuario()).size()));
+    //adicionando oportunidades sem responsável na fila
+    for (OportunidadeModel element : oportunidadeSemResponsavel) {
+      filaDeOportunidades.add(element);
+    }
 
-    menorQuantidadeDeOportunidadesPorResponsavel.ifPresent(
-      oportunidade -> {
-        List<OportunidadeModel> oportunidadeSemResponsavel =
-          oportunidadesRepository.oportunidadeSemResponsavel();
-        if(
-          !oportunidadeSemResponsavel.isEmpty()
-            && oportunidade.getStatus().equalsIgnoreCase("em andamento")){
-          oportunidadeSemResponsavel.get(0).setResponsavelId(oportunidade.getResponsavelId());
-          System.out.println("Passei aqui 1");
-        } else
-          throw new RuntimeException("Nao ha oportunidades sem responsavel para atribuir");
+    //atribuindo oportunidade ao responsvel com menor quantidade de oportunidades
+    if (!filaDeOportunidades.isEmpty()) {
+      List<Object[]> responsaveisLista = oportunidadesRepository.findResponsavelComMenosOportunidades();
+
+      if (!responsaveisLista.isEmpty() && responsaveisLista.get(0)[0] != null) {
+        Object[] responsavelData = responsaveisLista.get(0);
+        Integer idResponsavelInteger = (Integer) responsavelData[0];
+        Long idResponsavel = idResponsavelInteger.longValue();
+
+        Optional<UserModel> responsavelOptional = userRepository.findById(idResponsavel);
+
+        if (responsavelOptional.isPresent()) {
+          UserModel responsavel = responsavelOptional.get();
+          OportunidadeModel oportunidade = filaDeOportunidades.peek();
+
+          if (oportunidade != null && responsavel != null) {
+            oportunidade.setResponsavelId(responsavel);
+            filaDeOportunidades.poll();
+            oportunidadesRepository.save(oportunidade);
+          } else {
+            log.info("A lista está vazia!");
+          }
+        } else {
+          log.info("O responsável não foi encontrado");
+        }
+      } else {
+        // Lida com a situação onde a lista de responsáveis está vazia ou o ID do responsável é nulo
+        log.info("A lista de responsáveis está vazia, ou o responsável não foi encontrado!");
       }
-    );
-  }
+    }
 
+
+  }
 }

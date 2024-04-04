@@ -1,3 +1,6 @@
+environment:
+  name: "localhost"
+
 spring:
   application:
     name: "mobiauto"
@@ -11,9 +14,15 @@ spring:
       mode: always
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         format_sql: true
         show_sql: true
         use_sql_comments: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+jwt:
+  secret: "2D4A614E645267556B58703273357638792F423F4428472B4B6250655368566D"
+  expiration_in_ms: 900000

@@ -4,10 +4,10 @@ import br.com.mobiauto.domain.model.ClienteModel;
 import br.com.mobiauto.domain.request.ClientesRequest;
 import br.com.mobiauto.domain.response.ClientesResponse;
 import br.com.mobiauto.service.ClientesService;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class ClienteController {
     this.clientesService = clientesService;
   }
 
-  @Operation(summary = "Criando um cliente")
+  @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity create(@RequestBody ClientesRequest clientesRequest){
@@ -32,7 +32,7 @@ public class ClienteController {
     return ResponseEntity.created(null).build();
   }
 
-  @Operation(summary = "Buscando um cliente")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @GetMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public ClienteModel findById(@PathVariable Long id){
@@ -40,14 +40,14 @@ public class ClienteController {
     return clientesService.findById(id);
   }
 
-  @Operation(summary = "Buscando todos clientes")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<ClientesResponse> findAll(){
     return clientesService.findAll();
   }
 
-  @Operation(summary = "Atualizando um cliente")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PutMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity update(@RequestBody ClientesRequest clientesRequest, @PathVariable Long id){
@@ -56,7 +56,7 @@ public class ClienteController {
     return ResponseEntity.ok().build();
   }
 
-  @Operation(summary = "Deletando um cliente pelo id")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @DeleteMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void deleteById(@PathVariable Long id){
