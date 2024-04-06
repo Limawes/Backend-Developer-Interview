@@ -21,6 +21,8 @@
     >- **mvn spring-boot:run** (Inicia a aplicação)
     
 
+    Obs: O docker-compose não está completo com a aplicação e o banco.
+
 ### Regras não incluidas no projeto
     "O sistema deve ter a inteligência de distribuir as oportunidades sem responsável para 
       os assistentes da loja em forma de fila. Onde o próximo a receber seja o que possui a
@@ -29,8 +31,7 @@
 
 - essa regra foi parcialmente inclusa, o ponto que não está no projeto é onde o responsável com mais tempo sem 
 receber uma oportunidade, recebe a oportunidade de maneira automática.-
-  * motivo: Necessitaria de uma lógica onde há um cálculo de período, e eu levaria um tempo maior pra
-  pra criar essa regra, então é basicamente por falta de tempo.
+  * motivo: Necessitaria de uma lógica onde há um cálculo de período, será necessário mais tempo para a implementação.
   
 
     "Apenas administradores podem cadastrar novos usuários, salvos proprietários e 
@@ -38,7 +39,9 @@ receber uma oportunidade, recebe a oportunidade de maneira automática.-
 
 - regra parcialmente inclusa, o que não está incluso é a verificação de proprietários e gerentes poderem cadastras
 usuarios somente em suas lojas.
-  * motivo: Eu realmente não consegui validar isso, demandaria mais tempo pra eu me dedicar a essa regra.
+  * motivo: Para que a regra onde somente o proprietário pode cadastrar um usuário na revenda específica, será necessário
+    adicionar a lógica onde o prop está associado a revenda, e utilizar o código da revenda como filtro/inquilino. Não
+    foi possível implementar.
 
 
 ### Observações!!!
@@ -48,6 +51,8 @@ usuarios somente em suas lojas.
     >username: admin
     > 
     >password: 123456
+
+    password somente para ambiente de desenvolvimento.
   - Contém também a inserção das permissões, de alguns clientes e de alguns veículos.
 
   #### Login e autenticação:
@@ -66,3 +71,4 @@ usuarios somente em suas lojas.
 * https://medium.com/@AlexanderObregon/securing-spring-boot-applications-with-spring-security-1f6da7fde0f0
 * https://www.baeldung.com/spring-boot-security-autoconfiguration
 * https://medium.com/@minadev/authentication-and-authorization-with-spring-security-bf22e985f2cb
+* https://hub.docker.com/
