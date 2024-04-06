@@ -53,23 +53,22 @@ public class OportunidadesService {
   }
 
   @Transactional
-  public OportunidadeModel save(final OportunidadesRequest oportunidadesRequest, final Long oportunidade_id) {
+  public OportunidadeModel save(final OportunidadesRequest oportunidadesRequest, final Long oportunidadeId) {
     OportunidadeModel oportunidadeModel = new OportunidadeModel();
-    Long responsavel_id = null;
 
     //Verificando se é pra atualizar ou criar novo
-    if (oportunidade_id != null) {
-      Optional<OportunidadeModel> oportunidades = oportunidadesRepository.findById(oportunidade_id);
+    if (oportunidadeId != null) {
+      Optional<OportunidadeModel> oportunidades = oportunidadesRepository.findById(oportunidadeId);
       if (oportunidades.isEmpty()) {
         throw new RuntimeException("Oportunidade não encontrada!");
       }
-      oportunidadeModel.setIdOportunidade(oportunidade_id);
+      oportunidadeModel.setIdOportunidade(oportunidadeId);
     }
 
     oportunidadeModel.setDataAtribuicao(LocalDateTime.now());
     oportunidadeModel.setStatus(oportunidadesRequest.getStatus().isEmpty() ?
       "novo" : oportunidadesRequest.getStatus());
-    if (oportunidade_id != null &&
+    if (oportunidadeId != null &&
       (oportunidadesRequest.getStatus().equalsIgnoreCase("concluido")
         || oportunidadesRequest.getStatus().equalsIgnoreCase("concluído"))
     ) {
@@ -188,7 +187,6 @@ public class OportunidadesService {
           log.info("O responsável não foi encontrado");
         }
       } else {
-        // Lida com a situação onde a lista de responsáveis está vazia ou o ID do responsável é nulo
         log.info("A lista de responsáveis está vazia, ou o responsável não foi encontrado!");
       }
     }

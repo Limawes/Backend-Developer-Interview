@@ -4,6 +4,7 @@ import br.com.mobiauto.domain.model.ClienteModel;
 import br.com.mobiauto.domain.repository.ClientesRepository;
 import br.com.mobiauto.domain.request.ClientesRequest;
 import br.com.mobiauto.domain.response.ClientesResponse;
+import br.com.mobiauto.service.execeptions.NoDataFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,16 +24,17 @@ public class ClientesService {
 
   @Transactional
   //se nada der errado o método é confirmado, caso contrario as ações serão revertidas
-  public ClienteModel save(final ClientesRequest clientesRequest, final Long cliente_id){
+  public ClienteModel save(final ClientesRequest clientesRequest, final Long clienteId){
+    //@TODO Remover futuramente esse acoplamento do ClienteModel passando como parametro a conversão do Request para a Model
     ClienteModel clienteModel = new ClienteModel();
 
     // verificar se cria ou atualiza
-      if(cliente_id != null){
-        Optional<ClienteModel> cliente = clientesRepository.findById(cliente_id);
+      if(!Objects.isNull(clienteId)){
+        Optional<ClienteModel> cliente = clientesRepository.findById(clienteId);
         if(cliente.isEmpty()) {
-          throw new RuntimeException("Não encontrado");
+          throw new NoDataFoundException();
         }
-        clienteModel.setIdCliente(cliente_id);
+        clienteModel.setIdCliente(clienteId);
       }
 
       clienteModel.setNome(clientesRequest.getNome());
@@ -45,7 +47,7 @@ public class ClientesService {
   public ClienteModel findById(final Long id){
     Optional<ClienteModel> clientesModel = clientesRepository.findById(id);
     if(clientesModel.isEmpty()){
-      throw new RuntimeException("Cliente não encontrado");
+      throw new NoDataFoundException("Cliente não encontrado");
     }
     return clientesModel.get();
   }
@@ -71,7 +73,7 @@ public class ClientesService {
   public void deleteById(Long id){
     ClienteModel clienteModel = new ClienteModel();
     if(Objects.isNull(clienteModel)){
-      throw new RuntimeException("Sem dados para excluir");
+      throw new NoDataFoundException("Sem dados para excluir");
     }
     clientesRepository.deleteById(id);
   }

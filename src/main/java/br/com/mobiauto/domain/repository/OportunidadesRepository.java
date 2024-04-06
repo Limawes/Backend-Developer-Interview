@@ -26,8 +26,8 @@ public interface OportunidadesRepository extends JpaRepository<OportunidadeModel
 
 
 
-  @Query(value = "select count(*) from Oportunidades where id_responsavel = :id_responsavel", nativeQuery = true)
-  Long countOportunidadeByResponsavel(Long id_responsavel);
+  @Query(value = "select count(*) from Oportunidades where id_responsavel = :idResponsavel", nativeQuery = true)
+  Long countOportunidadeByResponsavel(Long idResponsavel);
 
   @Query(value = "select * from tbl_oportunidades where id_responsavel is null", nativeQuery = true)
   List<OportunidadeModel> oportunidadeSemResponsavel();

@@ -14,5 +14,5 @@ public interface VeiculoRepository extends JpaRepository<VeiculoModel, Long> {
   List<VeiculoModel> findAll();
 
   @Override
-  Optional<VeiculoModel> findById(Long aLong);
+  Optional<VeiculoModel> findById(Long id);
 }

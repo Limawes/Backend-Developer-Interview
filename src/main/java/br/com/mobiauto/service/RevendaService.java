@@ -24,10 +24,10 @@ public class RevendaService {
   }
 
   @Transactional
-  public RevendaModel save(final RevendasRequest revendasRequest, Long revendas_id){
+  public RevendaModel save(final RevendasRequest revendasRequest, Long revendasId){
     RevendaModel revendaModel = new RevendaModel();
-    if(revendas_id != null) {
-      Optional<RevendaModel> revendas = revendaRepository.findById(revendas_id);
+    if(revendasId != null) {
+      Optional<RevendaModel> revendas = revendaRepository.findById(revendasId);
       if (revendas.isEmpty()) {
         throw new RuntimeException("Loja não encontrada!");
       }

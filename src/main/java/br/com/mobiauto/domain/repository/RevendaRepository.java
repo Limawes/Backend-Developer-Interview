@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface RevendaRepository extends JpaRepository<RevendaModel, Long> {
 
   @Override
-  Optional<RevendaModel> findById(Long revenda_id);
+  Optional<RevendaModel> findById(Long revendaId);
 
   @Override
   List<RevendaModel> findAll();

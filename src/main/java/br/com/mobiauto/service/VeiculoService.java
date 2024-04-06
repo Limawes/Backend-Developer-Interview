@@ -22,16 +22,16 @@ public class VeiculoService {
   }
 
   @Transactional
-  public VeiculoModel save(final VeiculosRequest veiculosRequest, Long veiculos_id){
+  public VeiculoModel save(final VeiculosRequest veiculosRequest, Long veiculosId){
     VeiculoModel veiculoModel = new VeiculoModel();
 
-    if(veiculos_id != null){
-      Optional<VeiculoModel> veiculo = veiculoRepository.findById(veiculos_id);
+    if(veiculosId != null){
+      Optional<VeiculoModel> veiculo = veiculoRepository.findById(veiculosId);
       if(veiculo.isEmpty()){
         throw new RuntimeException("Veículo não encontrado");
       }
     }
-    veiculoModel.setIdVeiculo(veiculos_id);
+    veiculoModel.setIdVeiculo(veiculosId);
 
     veiculoModel.setMarca(veiculosRequest.getMarca());
     veiculoModel.setModelo(veiculosRequest.getModelo());
