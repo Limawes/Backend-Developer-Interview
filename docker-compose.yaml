@@ -17,3 +17,4 @@ volumes:
   db:
     driver: local
 
+#  docker-compose  --env-file .\.env up

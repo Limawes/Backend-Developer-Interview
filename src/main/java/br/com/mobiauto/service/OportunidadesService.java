@@ -174,11 +174,11 @@ public class OportunidadesService {
 
         if (responsavelOptional.isPresent()) {
           UserModel responsavel = responsavelOptional.get();
-          OportunidadeModel oportunidade = filaDeOportunidades.peek();
+          OportunidadeModel oportunidade = filaDeOportunidades.peek();//recupera o valor sem remover
 
           if (oportunidade != null && responsavel != null) {
             oportunidade.setResponsavelId(responsavel);
-            filaDeOportunidades.poll();
+            filaDeOportunidades.poll(); // remove o primeiro valor
             oportunidadesRepository.save(oportunidade);
           } else {
             log.info("A lista está vazia!");
